@@ -1,0 +1,95 @@
+.testimonials {
+  padding: 5rem 6%;
+  background: var(--bg-main);
+  font-family: "Segoe UI", sans-serif;
+  text-align: center;
+}
+
+.test-title {
+  font-size: 2.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.test-sub {
+  font-size: 1.05rem;
+  color: #666;
+  margin-bottom: 3rem;
+}
+
+.test-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.test-card {
+  background: var(--bg-card);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  text-align: left;
+}
+
+.test-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+}
+
+/* Header */
+.test-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ff3d3d;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.test-header h4 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.test-header span {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* Stars */
+.stars {
+  color: #ffb400;
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+/* Review */
+.review-text {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* 🌙 DARK MODE */
+body[data-theme="dark"] .test-sub {
+  color: #aaa;
+}
+
+body[data-theme="dark"] .review-text {
+  color: #ccc;
+}
+
+body[data-theme="dark"] .test-header span {
+  color: #aaa;
+}

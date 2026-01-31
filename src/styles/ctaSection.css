@@ -1,0 +1,116 @@
+.cta-section {
+  position: relative;
+  padding: 5rem 6%;
+  background: linear-gradient(
+    135deg,
+    #ff3d3d,
+    #ff6a6a
+  );
+  overflow: hidden;
+  border-radius: 28px;
+  margin: 5rem 6%;
+}
+
+/* subtle animated glow */
+.cta-section::before {
+  content: "";
+  position: absolute;
+  top: -30%;
+  left: -20%;
+  width: 60%;
+  height: 160%;
+  background: rgba(255, 255, 255, 0.12);
+  transform: rotate(25deg);
+  animation: shine 6s infinite linear;
+}
+
+@keyframes shine {
+  from {
+    transform: translateX(-100%) rotate(25deg);
+  }
+  to {
+    transform: translateX(200%) rotate(25deg);
+  }
+}
+
+.cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.cta-content {
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+  color: white;
+  z-index: 2;
+}
+
+.cta-content h2 {
+  font-size: 2.6rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.cta-content p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 2.2rem;
+  line-height: 1.6;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.cta-primary,
+.cta-secondary {
+  padding: 14px 30px;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* PRIMARY */
+.cta-primary {
+  background: white;
+  color: #ff3d3d;
+  border: none;
+}
+
+.cta-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* SECONDARY */
+.cta-secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.cta-secondary:hover {
+  background: white;
+  color: #ff3d3d;
+  transform: translateY(-3px);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+
+  .cta-section {
+    margin: 4rem 4%;
+    padding: 4rem 5%;
+  }
+}

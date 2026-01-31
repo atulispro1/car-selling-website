@@ -1,0 +1,181 @@
+.car-details {
+  padding: 4rem 6%;
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.details-wrapper {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
+  background: var(--bg-card);
+  padding: 2.5rem;
+  border-radius: 14px;
+}
+
+.details-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.details-info h1 {
+  font-size: 2.3rem;
+  margin-bottom: 0.8rem;
+  color: var(--text-main);
+}
+
+.details-info .price {
+  font-size: 1.6rem;
+  color: #ff3d3d;
+  margin-bottom: 1.2rem;
+}
+
+.specs {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.specs li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: var(--text-main);
+}
+
+.description {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.contact-btn {
+  padding: 12px 28px;
+  background: #ff3d3d;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.contact-btn:hover {
+  background: #e93333;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .details-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+.details-gallery {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-image {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  transition: opacity 0.4s ease;
+}
+
+.thumbnail-row {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.thumb {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0.6;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.thumb:hover {
+  opacity: 1;
+}
+
+.thumb.active {
+  opacity: 1;
+  border-color: #ff3d3d;
+}
+
+.similar-section {
+  margin-top: 4rem;
+}
+
+.similar-section h2 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.similar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.similar-card {
+  background: var(--bg-main);
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text-main);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.similar-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.12);
+}
+
+.similar-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.similar-info {
+  padding: 1rem;
+}
+
+.similar-info h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-main);
+}
+
+.similar-info span {
+  color: #ff3d3d;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .details-wrapper {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+
+  .main-image {
+    height: 260px;
+  }
+
+  .thumbnail-row {
+    overflow-x: auto;
+  }
+}
+

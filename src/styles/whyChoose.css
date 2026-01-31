@@ -1,0 +1,72 @@
+.why-choose {
+  padding: 5rem 6%;
+  background: var(--bg-main, #ffffff);
+  color: var(--text-main, #111);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.why-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.why-header h2 {
+  font-size: 2.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.why-header p {
+  font-size: 1.05rem;
+  color: #666;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.why-card {
+  background: var(--bg-card, #ffffff);
+  border-radius: 14px;
+  padding: 2rem 1.6rem;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.why-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+}
+
+.why-icon {
+  font-size: 2.2rem;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.why-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.why-card p {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Dark Mode Support */
+body[data-theme="dark"] .why-choose {
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+body[data-theme="dark"] .why-card {
+  background: #020617;
+}
+
+body[data-theme="dark"] .why-card p {
+  color: #9ca3af;
+}

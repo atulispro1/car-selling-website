@@ -1,0 +1,130 @@
+.newsletter-section {
+  padding: 5rem 6%;
+  display: flex;
+  justify-content: center;
+}
+
+.newsletter-card {
+  width: 100%;
+  max-width: 900px;
+  padding: 3.5rem 3rem;
+  background: linear-gradient(
+    135deg,
+    #111,
+    #1c1c1c
+  );
+  border-radius: 22px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+}
+
+/* animated gradient glow */
+.newsletter-card::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -30%;
+  width: 60%;
+  height: 180%;
+  background: rgba(255, 61, 61, 0.25);
+  transform: rotate(25deg);
+  animation: glowMove 6s linear infinite;
+}
+
+@keyframes glowMove {
+  from {
+    transform: translateX(-120%) rotate(25deg);
+  }
+  to {
+    transform: translateX(220%) rotate(25deg);
+  }
+}
+
+.newsletter-card h2 {
+  font-size: 2.4rem;
+  margin-bottom: 0.8rem;
+  position: relative;
+  z-index: 2;
+}
+
+.newsletter-card p {
+  font-size: 1.05rem;
+  color: #ccc;
+  max-width: 650px;
+  margin: 0 auto 2.2rem;
+  line-height: 1.6;
+  position: relative;
+  z-index: 2;
+}
+
+/* FORM */
+.newsletter-form {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+
+.newsletter-form input {
+  width: 320px;
+  max-width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+}
+
+.newsletter-form input:focus {
+  box-shadow: 0 0 0 2px #ff3d3d;
+}
+
+.newsletter-form button {
+  padding: 14px 26px;
+  border-radius: 10px;
+  border: none;
+  background: #ff3d3d;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.newsletter-form button:hover {
+  background: #e93333;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255, 61, 61, 0.4);
+}
+
+/* SUCCESS */
+.newsletter-success {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #6dff9e;
+  position: relative;
+  z-index: 2;
+}
+
+.newsletter-success span {
+  display: block;
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
+  color: #ccc;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .newsletter-card {
+    padding: 3rem 2rem;
+  }
+
+  .newsletter-card h2 {
+    font-size: 2rem;
+  }
+}

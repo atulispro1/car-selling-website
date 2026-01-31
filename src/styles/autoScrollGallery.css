@@ -1,0 +1,71 @@
+.auto-scroll-wrapper {
+  width: 100%;
+  overflow: hidden;
+  padding: 3rem 0;
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+}
+
+.auto-scroll-track {
+  display: flex;
+  width: max-content;
+  animation: scroll 35s linear infinite;
+}
+
+
+.scroll-card {
+  min-width: 420px;
+  height: 300px;
+  margin-right: 24px;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.scroll-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+
+
+/* Infinite scroll animation */
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .scroll-card {
+    min-width: 240px;
+    height: 160px;
+  }
+}
+
+.gallery-heading {
+  text-align: center;
+  margin: 4rem auto 2rem;
+  padding: 0 6%;
+}
+
+.gallery-heading h2 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.gallery-heading p {
+  font-size: 1.05rem;
+  color: #777;
+  max-width: 650px;
+  margin: auto;
+}
+

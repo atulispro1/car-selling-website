@@ -1,0 +1,131 @@
+.footer {
+  background: #111;
+  color: #ddd;
+  padding: 4rem 6% 2rem;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.footer-col h3 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.footer-col h4 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.footer-col p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #aaa;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #bbb;
+  transition: color 0.3s ease;
+}
+
+.footer-col ul li:hover {
+  color: white;
+}
+
+.socials span {
+  display: block;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+  color: #bbb;
+}
+
+.socials span:hover {
+  color: white;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .footer {
+    text-align: center;
+  }
+}
+
+.footer a {
+  text-decoration: none;
+  color: #bbb;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: #ffffff;
+}
+
+/* Social links look better */
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.socials a {
+  display: inline-block;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.socials a:hover {
+  background: #ff3d3d;
+  color: white;
+}
+
+/* Footer links hover underline */
+.footer-col ul li a {
+  position: relative;
+}
+
+.footer-col ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 2px;
+  background: #ff3d3d;
+  transition: width 0.3s ease;
+}
+
+.footer-col ul li a:hover::after {
+  width: 100%;
+}
+@media (max-width: 600px) {
+  .footer-top {
+    gap: 1.5rem;
+  }
+}
+
