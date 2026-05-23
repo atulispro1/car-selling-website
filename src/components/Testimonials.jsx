@@ -3,37 +3,35 @@ import "./../styles/testimonials.css";
 export default function Testimonials() {
   const reviews = [
     {
-      name: "Rohit Sharma",
+      name: "Sana Khan",
       city: "Delhi",
       rating: 5,
-      text: "Selling my car was super easy. Got genuine buyers within 2 days. Highly recommended!",
+      text: "The face wash and soap combo felt fresh, simple, and nicely packed.",
     },
     {
       name: "Ananya Verma",
       city: "Mumbai",
       rating: 4,
-      text: "Loved the clean interface and smooth experience. Buying a used car felt very safe here.",
+      text: "Loved browsing the product images. The sample catalog feels clean and easy.",
     },
     {
-      name: "Aman Gupta",
+      name: "Mehak Ali",
       city: "Bangalore",
       rating: 5,
-      text: "Best car marketplace I’ve used. The image gallery and contact options are top-notch.",
+      text: "The moisturizer listing had clear details and the WhatsApp contact was helpful.",
     },
     {
       name: "Priya Singh",
       city: "Pune",
       rating: 4,
-      text: "Great platform for comparing cars. The seller contact feature is very helpful.",
+      text: "Great place to compare skincare basics and daily-use care products.",
     },
   ];
 
   return (
     <section className="testimonials">
-      <h2 className="test-title">What Our Customers Say</h2>
-      <p className="test-sub">
-        Trusted by thousands of buyers and sellers across India
-      </p>
+      <h2 className="test-title">What Customers Say</h2>
+      <p className="test-sub">Trusted for skincare and daily-care essentials</p>
 
       <div className="test-grid">
         {reviews.map((r, i) => (
@@ -47,11 +45,11 @@ export default function Testimonials() {
             </div>
 
             <div className="stars">
-              {"★".repeat(r.rating)}
-              {"☆".repeat(5 - r.rating)}
+              {"*".repeat(r.rating)}
+              {".".repeat(5 - r.rating)}
             </div>
 
-            <p className="review-text">“{r.text}”</p>
+            <p className="review-text">"{r.text}"</p>
           </div>
         ))}
       </div>

@@ -4,14 +4,6 @@ import gsap from "gsap";
 
 import { useAuth } from "../context/AuthContext";
 
-import car1 from "../assets/images/car1.jpg";
-import car2 from "../assets/images/car2.jpg";
-import car3 from "../assets/images/car3.jpg";
-import car4 from "../assets/images/car4.jpg";
-import car5 from "../assets/images/car5.jpg";
-import car6 from "../assets/images/car6.jpg";
-import car7 from "../assets/images/car7.jpg";
-
 export default function Hero() {
   const imagesRef = useRef([]);
   const currentIndex = useRef(0);
@@ -20,7 +12,15 @@ export default function Hero() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const images = [car1, car2, car3, car4, car5, car6, car7];
+  const images = [
+    "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=1600&q=80",
+  ];
 
   /* ---------------- SLIDE LOGIC ---------------- */
   const slideTo = (nextIndex) => {
@@ -83,7 +83,7 @@ export default function Hero() {
 
   const handleSell = () => {
     if (!user) {
-      alert("You must be logged in first to sell a car.");
+      alert("You must be logged in first to add a product.");
       navigate("/login");
       return;
     }
@@ -100,7 +100,7 @@ export default function Hero() {
             ref={(el) => (imagesRef.current[i] = el)}
             src={img}
             className="hero-bg"
-            alt="car background"
+            alt="beauty product background"
           />
         ))}
       </div>
@@ -109,29 +109,30 @@ export default function Hero() {
 
       {/* SLIDER CONTROLS */}
       <button className="slider-btn left" onClick={prevSlide}>
-        ‹
+        &lt;
       </button>
       <button className="slider-btn right" onClick={nextSlide}>
-        ›
+        &gt;
       </button>
 
       {/* CONTENT */}
       <div className="hero-content">
         <h1>
-          Drive Your <span>Dream Car</span>
+          Discover <span>Daily Glow Essentials</span>
         </h1>
 
         <p>
-          Discover premium, luxury and performance cars curated just for you.
+          Shop sample skincare, soaps, hand wash, hair care, and bath products
+          curated for a fresh everyday routine.
         </p>
 
         <div className="hero-buttons">
           <button className="primary" onClick={handleExplore}>
-            Explore Cars
+            Shop Products
           </button>
 
           <button className="secondary" onClick={handleSell}>
-            Sell Your Car
+            Add Product
           </button>
         </div>
       </div>

@@ -9,7 +9,6 @@ export default function Newsletter() {
     e.preventDefault();
     if (!email) return;
 
-    // fake success (frontend only)
     setSubscribed(true);
     setEmail("");
   };
@@ -17,10 +16,10 @@ export default function Newsletter() {
   return (
     <section className="newsletter-section">
       <div className="newsletter-card">
-        <h2>Stay Updated 🚗</h2>
+        <h2>Stay Updated</h2>
         <p>
-          Subscribe to get the latest car listings, price drops,
-          exclusive deals and market insights directly in your inbox.
+          Subscribe for new skincare drops, soap bundles, sample deals, and
+          product updates from Yusra Khan.
         </p>
 
         {!subscribed ? (
@@ -36,8 +35,8 @@ export default function Newsletter() {
           </form>
         ) : (
           <div className="newsletter-success">
-            🎉 You’re subscribed!  
-            <span>We’ll keep you updated.</span>
+            You are subscribed!
+            <span>We will keep you updated.</span>
           </div>
         )}
       </div>

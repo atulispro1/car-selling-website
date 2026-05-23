@@ -9,8 +9,8 @@ export default function FeaturedCars() {
     return (
       <section className="featured-cars">
         <div className="featured-header">
-          <h2>Featured Cars</h2>
-          <p>No cars listed yet</p>
+          <h2>Featured Products</h2>
+          <p>No products listed yet</p>
         </div>
       </section>
     );
@@ -19,30 +19,26 @@ export default function FeaturedCars() {
   return (
     <section className="featured-cars">
       <div className="featured-header">
-        <h2>Featured Cars</h2>
-        <p>Explore the latest cars listed on our platform</p>
+        <h2>Featured Products</h2>
+        <p>Explore the latest sample products in the Yusra Khan catalog</p>
       </div>
 
       <div className="cars-grid">
         {cars.map((car) => (
           <div key={car.id} className="car-card">
             <div className="car-image">
-              <img
-                src={car.images?.[0] || "/no-image.png"}
-                alt={car.name}
-              />
+              <img src={car.images?.[0] || "/no-image.png"} alt={car.name} />
             </div>
 
             <div className="car-info">
               <h3>{car.name}</h3>
 
               <p className="car-meta">
-                {car.year} • {car.fuel} •{" "}
-                {car.condition === "used" ? "Used" : "New"}
+                {car.year} | {car.fuel} | {car.condition === "used" ? "Deal" : "New"}
               </p>
 
               <div className="car-footer">
-                <span className="price">₹{car.price}</span>
+                <span className="price">Rs. {car.price}</span>
 
                 <Link to={`/cars/${car.id}`}>
                   <button>View Details</button>

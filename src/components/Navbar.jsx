@@ -2,7 +2,6 @@ import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import ThemeToggle from "./ThemeToggle";
-import logo from "../assets/images/logo.png";
 import "./../styles/navbar.css";
 
 export default function Navbar() {
@@ -17,7 +16,7 @@ export default function Navbar() {
 
   const handleSellClick = () => {
     if (!user) {
-      alert("You must be logged in first to sell a car.");
+      alert("You must be logged in first to add a product.");
       navigate("/login");
       return;
     }
@@ -27,25 +26,22 @@ export default function Navbar() {
 
   return (
     <header className="navbar">
-      {/* LEFT */}
       <Link to="/" className="logo-box">
-        <img src={logo} alt="CarSell Logo" className="logo-image" />
-        <span className="brand-name">CarSell</span>
+        <span className="logo-image">YK</span>
+        <span className="brand-name">Yusra Khan</span>
       </Link>
 
-      {/* DESKTOP CENTER */}
       <nav className="nav-center desktop-only">
-        <Link to="/cars">Buy Cars</Link>
-        <Link to="/used-cars">Used Cars</Link>
+        <Link to="/cars">Shop Products</Link>
+        <Link to="/used-cars">Best Sellers</Link>
         <Link to="/contact">Contact</Link>
       </nav>
 
-      {/* DESKTOP RIGHT */}
       <div className="nav-right desktop-only">
         {!isAuthPage && <ThemeToggle />}
 
         <button className="sell-btn" onClick={handleSellClick}>
-          Sell Car
+          Add Product
         </button>
 
         {user ? (
@@ -75,12 +71,14 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* HAMBURGER */}
-      <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-        ☰
+      <button
+        className="hamburger"
+        aria-label="Toggle menu"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        Menu
       </button>
 
-      {/* MOBILE MENU */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         {user && (
           <div className="mobile-user">
@@ -90,17 +88,17 @@ export default function Navbar() {
         )}
 
         <Link to="/cars" onClick={() => setMenuOpen(false)}>
-          Buy Cars
+          Shop Products
         </Link>
         <Link to="/used-cars" onClick={() => setMenuOpen(false)}>
-          Used Cars
+          Best Sellers
         </Link>
         <Link to="/contact" onClick={() => setMenuOpen(false)}>
           Contact
         </Link>
 
         <button className="sell-btn" onClick={handleSellClick}>
-          Sell Car
+          Add Product
         </button>
 
         {!isAuthPage && <ThemeToggle />}

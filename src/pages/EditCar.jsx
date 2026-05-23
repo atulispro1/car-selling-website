@@ -19,7 +19,6 @@ export default function EditCar() {
 
   const [formData, setFormData] = useState(null);
 
-  /* ---------------- SAFETY ---------------- */
   useEffect(() => {
     if (!car) {
       navigate("/");
@@ -27,7 +26,7 @@ export default function EditCar() {
     }
 
     if (car.seller !== user?.email) {
-      alert("You are not allowed to edit this car.");
+      alert("You are not allowed to edit this product.");
       navigate("/");
       return;
     }
@@ -41,11 +40,10 @@ export default function EditCar() {
       price: car.price,
       city: car.city,
       condition: car.condition,
-      description: car.description || "", // ✅ NEW
+      description: car.description || "",
     });
   }, [car, user, navigate]);
 
-  /* ---------------- ANIMATION ---------------- */
   useEffect(() => {
     if (formRef.current) {
       gsap.from(formRef.current, {
@@ -59,7 +57,6 @@ export default function EditCar() {
 
   if (!formData) return null;
 
-  /* ---------------- HANDLERS ---------------- */
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -76,7 +73,7 @@ export default function EditCar() {
       price: formData.price,
       city: formData.city,
       condition: formData.condition,
-      description: formData.description, // ✅ NEW
+      description: formData.description,
     };
 
     updateCar(updatedCar);
@@ -86,12 +83,11 @@ export default function EditCar() {
   return (
     <section className="sell-car">
       <div className="sell-container" ref={formRef}>
-        <h1>Edit Car Details</h1>
+        <h1>Edit Product Details</h1>
 
         <form className="sell-form" onSubmit={handleSubmit}>
-          {/* BRAND */}
           <div className="form-group">
-            <label>Brand</label>
+            <label>Product Name</label>
             <input
               name="brand"
               value={formData.brand}
@@ -100,9 +96,8 @@ export default function EditCar() {
             />
           </div>
 
-          {/* MODEL */}
           <div className="form-group">
-            <label>Model</label>
+            <label>Variant or Type</label>
             <input
               name="model"
               value={formData.model}
@@ -111,12 +106,10 @@ export default function EditCar() {
             />
           </div>
 
-          {/* ROW */}
           <div className="form-row">
             <div className="form-group">
-              <label>Year</label>
+              <label>Size or Quantity</label>
               <input
-                type="number"
                 name="year"
                 value={formData.year}
                 onChange={handleChange}
@@ -125,7 +118,7 @@ export default function EditCar() {
             </div>
 
             <div className="form-group">
-              <label>Fuel</label>
+              <label>Category</label>
               <select
                 name="fuel"
                 value={formData.fuel}
@@ -133,18 +126,18 @@ export default function EditCar() {
                 required
               >
                 <option value="">Select</option>
-                <option>Petrol</option>
-                <option>Diesel</option>
-                <option>Electric</option>
-                <option>CNG</option>
+                <option>Skincare</option>
+                <option>Hand Care</option>
+                <option>Bath Care</option>
+                <option>Hair Care</option>
+                <option>Body Care</option>
               </select>
             </div>
           </div>
 
-          {/* ROW */}
           <div className="form-row">
             <div className="form-group">
-              <label>Transmission</label>
+              <label>Pack Type</label>
               <select
                 name="transmission"
                 value={formData.transmission}
@@ -152,13 +145,17 @@ export default function EditCar() {
                 required
               >
                 <option value="">Select</option>
-                <option>Manual</option>
-                <option>Automatic</option>
+                <option>Bottle</option>
+                <option>Pump Bottle</option>
+                <option>Tube Pack</option>
+                <option>Jar Pack</option>
+                <option>Soap Bar</option>
+                <option>Dropper</option>
               </select>
             </div>
 
             <div className="form-group">
-              <label>Price (₹)</label>
+              <label>Price (Rs.)</label>
               <input
                 type="number"
                 name="price"
@@ -169,7 +166,6 @@ export default function EditCar() {
             </div>
           </div>
 
-          {/* CITY */}
           <div className="form-group">
             <label>City</label>
             <input
@@ -180,9 +176,8 @@ export default function EditCar() {
             />
           </div>
 
-          {/* CONDITION */}
           <div className="form-group">
-            <label>Car Type</label>
+            <label>Product Status</label>
             <select
               name="condition"
               value={formData.condition}
@@ -190,11 +185,11 @@ export default function EditCar() {
               required
             >
               <option value="">Select</option>
-              <option value="new">New Car</option>
-              <option value="used">Used Car</option>
+              <option value="new">New Product</option>
+              <option value="used">Best Seller</option>
             </select>
           </div>
-          {/* DESCRIPTION */}
+
           <div className="form-group">
             <label>Description</label>
             <textarea
@@ -202,11 +197,11 @@ export default function EditCar() {
               value={formData.description}
               onChange={handleChange}
               rows="4"
-              placeholder="Update car description"
+              placeholder="Update product description"
             />
           </div>
 
-          <button className="submit-btn">Update Car</button>
+          <button className="submit-btn">Update Product</button>
         </form>
       </div>
     </section>

@@ -1,38 +1,25 @@
 import "./../styles/autoScrollGallery.css";
-/* 🔹 Import local images */
-import gal1 from "../assets/gallery/gal1.jpg";
-import gal2 from "../assets/gallery/gal2.jpg";
-import gal3 from "../assets/gallery/gal3.jpg";
-import gal4 from "../assets/gallery/gal4.jpg";
-import gal5 from "../assets/gallery/gal5.jpg";
-import gal6 from "../assets/gallery/gal6.jpg";
-import gal7 from "../assets/gallery/gal7.jpg";
-import gal8 from "../assets/gallery/gal8.jpg";
-import gal9 from "../assets/gallery/gal9.jpg";
-import gal10 from "../assets/gallery/gal10.jpg";
 
-/* 🔁 Images array */
 const images = [
-  gal1,
-  gal2,
-  gal3,
-  gal4,
-  gal5,
-  gal6,
-  gal7,
-  gal8,
-  gal9,
-  gal10,
+  "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=700&q=80",
+  "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=700&q=80",
+  "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=700&q=80",
+  "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=700&q=80",
+  "https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=700&q=80",
+  "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=700&q=80",
+  "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=700&q=80",
+  "https://images.unsplash.com/photo-1607006483224-821d67669d22?auto=format&fit=crop&w=700&q=80",
+  "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=700&q=80",
+  "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=700&q=80",
 ];
 
 export default function AutoScrollGallery() {
   return (
     <section className="auto-scroll-wrapper">
       <div className="auto-scroll-track">
-        {/* duplicate for infinite loop */}
         {[...images, ...images].map((img, index) => (
           <div className="scroll-card" key={index}>
-            <img src={img} alt={`gallery-${index}`} />
+            <img src={img} alt={`product-gallery-${index}`} />
           </div>
         ))}
       </div>

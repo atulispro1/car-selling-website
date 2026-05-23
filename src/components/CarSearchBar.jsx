@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./../styles/searchBar.css";
 
-export default function CarSearchBar({ onSearch }) {
+export default function CarSearchBar({ onSearch = () => {} }) {
   const [query, setQuery] = useState("");
   const [city, setCity] = useState("");
   const [priceRange, setPriceRange] = useState("");
@@ -21,7 +21,7 @@ export default function CarSearchBar({ onSearch }) {
       <form className="search-box" onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Search by car name or brand"
+          placeholder="Search face wash, soap, serum..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -33,6 +33,8 @@ export default function CarSearchBar({ onSearch }) {
           <option>Bangalore</option>
           <option>Pune</option>
           <option>Hyderabad</option>
+          <option>Lucknow</option>
+          <option>Chennai</option>
         </select>
 
         <select
@@ -40,10 +42,10 @@ export default function CarSearchBar({ onSearch }) {
           onChange={(e) => setPriceRange(e.target.value)}
         >
           <option value="">Any Price</option>
-          <option value="0-1000000">Below ₹10L</option>
-          <option value="1000000-2500000">₹10L – ₹25L</option>
-          <option value="2500000-5000000">₹25L – ₹50L</option>
-          <option value="5000000-100000000">₹50L+</option>
+          <option value="0-250">Below Rs. 250</option>
+          <option value="250-500">Rs. 250 - Rs. 500</option>
+          <option value="500-750">Rs. 500 - Rs. 750</option>
+          <option value="750-5000">Rs. 750+</option>
         </select>
 
         <button type="submit">Search</button>

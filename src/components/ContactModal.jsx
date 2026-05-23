@@ -4,19 +4,21 @@ export default function ContactModal({ open, onClose, car }) {
   if (!open) return null;
 
   const whatsappNumber = car?.sellerPhone;
-  const message = `Hi ${car?.sellerName}, I'm interested in your car (${car?.name}) listed on CarSell.`;
+  const message = `Hi ${car?.sellerName}, I am interested in ${car?.name} listed on Yusra Khan.`;
 
   const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    message
+    message,
   )}`;
 
   return (
     <div className="modal-overlay">
       <div className="modal-box">
-        <button className="close-btn" onClick={onClose}>✕</button>
+        <button className="close-btn" onClick={onClose}>
+          x
+        </button>
 
-        <h2>Contact Seller</h2>
-        <p>You can directly contact the seller via WhatsApp.</p>
+        <h2>Contact Store</h2>
+        <p>You can directly contact the store via WhatsApp.</p>
 
         <a
           href={whatsappURL}

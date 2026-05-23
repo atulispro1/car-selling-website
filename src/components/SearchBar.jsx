@@ -4,10 +4,7 @@ export default function SearchBar() {
   return (
     <section className="search-section">
       <div className="search-box">
-        <input
-          type="text"
-          placeholder="Search by car name or brand"
-        />
+        <input type="text" placeholder="Search by product name or category" />
 
         <select>
           <option>Location</option>
@@ -19,10 +16,10 @@ export default function SearchBar() {
 
         <select>
           <option>Price Range</option>
-          <option>Below ₹10L</option>
-          <option>₹10L – ₹25L</option>
-          <option>₹25L – ₹50L</option>
-          <option>₹50L+</option>
+          <option>Below Rs. 250</option>
+          <option>Rs. 250 - Rs. 500</option>
+          <option>Rs. 500 - Rs. 750</option>
+          <option>Rs. 750+</option>
         </select>
 
         <button>Search</button>

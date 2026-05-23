@@ -17,7 +17,6 @@ export default function SellCar() {
   const { user } = useAuth();
   const { addCar } = useCars();
 
-  /* ------------------ STATE ------------------ */
   const [formData, setFormData] = useState({
     brand: "",
     model: "",
@@ -28,7 +27,7 @@ export default function SellCar() {
     city: "",
     condition: "",
     sellerPhone: "",
-    description: "", // ✅ FIX (WAS MISSING)
+    description: "",
   });
 
   const [images, setImages] = useState([]);
@@ -36,15 +35,13 @@ export default function SellCar() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  /* ------------------ PROTECT ROUTE ------------------ */
   useEffect(() => {
     if (!user) {
-      alert("You must be logged in to sell a car.");
+      alert("You must be logged in to add a product.");
       navigate("/login");
     }
   }, [user, navigate]);
 
-  /* ------------------ ANIMATION ------------------ */
   useEffect(() => {
     if (formRef.current) {
       gsap.from(formRef.current, {
@@ -56,7 +53,6 @@ export default function SellCar() {
     }
   }, []);
 
-  /* ------------------ HANDLERS ------------------ */
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -64,7 +60,6 @@ export default function SellCar() {
     }));
   };
 
-  /* -------- CLOUDINARY IMAGE UPLOAD -------- */
   const handleImages = async (e) => {
     const files = Array.from(e.target.files);
 
@@ -100,7 +95,6 @@ export default function SellCar() {
     }
   };
 
-  /* ------------------ VALIDATION ------------------ */
   const validate = () => {
     const e = {};
     if (!formData.brand) e.brand = "Required";
@@ -116,7 +110,6 @@ export default function SellCar() {
     return e;
   };
 
-  /* ------------------ SUBMIT ------------------ */
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -143,62 +136,72 @@ export default function SellCar() {
     setSubmitted(true);
   };
 
-  /* ------------------ SUCCESS ------------------ */
   if (submitted) {
     return (
       <section className="sell-car">
         <div className="sell-container success">
-          <h1>🎉 Car Listed Successfully!</h1>
-          <p>Your car is now visible on the platform.</p>
+          <h1>Product Listed Successfully!</h1>
+          <p>Your product is now visible on the platform.</p>
 
           <button className="submit-btn" onClick={() => navigate("/cars")}>
-            View Cars
+            View Products
           </button>
         </div>
       </section>
     );
   }
 
-  /* ------------------ FORM ------------------ */
   return (
     <section className="sell-car">
       <div className="sell-container" ref={formRef}>
-        <h1>Sell Your Car</h1>
-        <p>Fill all details carefully</p>
+        <h1>Add Product</h1>
+        <p>Fill product details carefully</p>
 
         <form className="sell-form" onSubmit={handleSubmit}>
-          <input name="brand" placeholder="Brand" onChange={handleChange} />
+          <input
+            name="brand"
+            placeholder="Product Name"
+            onChange={handleChange}
+          />
           {errors.brand && <span className="error-text">{errors.brand}</span>}
 
-          <input name="model" placeholder="Model" onChange={handleChange} />
+          <input
+            name="model"
+            placeholder="Variant or Type"
+            onChange={handleChange}
+          />
           {errors.model && <span className="error-text">{errors.model}</span>}
 
           <input
-            type="number"
             name="year"
-            placeholder="Year"
+            placeholder="Size or Quantity"
             onChange={handleChange}
           />
           {errors.year && <span className="error-text">{errors.year}</span>}
 
           <select name="fuel" onChange={handleChange}>
-            <option value="">Select Fuel</option>
-            <option>Petrol</option>
-            <option>Diesel</option>
-            <option>Electric</option>
-            <option>CNG</option>
+            <option value="">Select Category</option>
+            <option>Skincare</option>
+            <option>Hand Care</option>
+            <option>Bath Care</option>
+            <option>Hair Care</option>
+            <option>Body Care</option>
           </select>
 
           <select name="transmission" onChange={handleChange}>
-            <option value="">Select Transmission</option>
-            <option>Manual</option>
-            <option>Automatic</option>
+            <option value="">Select Pack Type</option>
+            <option>Bottle</option>
+            <option>Pump Bottle</option>
+            <option>Tube Pack</option>
+            <option>Jar Pack</option>
+            <option>Soap Bar</option>
+            <option>Dropper</option>
           </select>
 
           <input
             type="number"
             name="price"
-            placeholder="Price"
+            placeholder="Price in Rs."
             onChange={handleChange}
           />
           <input name="city" placeholder="City" onChange={handleChange} />
@@ -210,15 +213,15 @@ export default function SellCar() {
           />
 
           <select name="condition" onChange={handleChange}>
-            <option value="">Car Type</option>
-            <option value="new">New Car</option>
-            <option value="used">Used Car</option>
+            <option value="">Product Status</option>
+            <option value="new">New Product</option>
+            <option value="used">Best Seller</option>
           </select>
 
           <textarea
             name="description"
             rows="4"
-            placeholder="Describe condition, mileage, ownership, etc."
+            placeholder="Describe ingredients, use, fragrance, size, and benefits."
             onChange={handleChange}
           />
 
@@ -237,7 +240,7 @@ export default function SellCar() {
           </div>
 
           <button className="submit-btn" disabled={loading}>
-            {loading ? "Uploading..." : "Submit Car"}
+            {loading ? "Uploading..." : "Submit Product"}
           </button>
         </form>
       </div>

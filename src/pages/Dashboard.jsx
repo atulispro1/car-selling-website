@@ -9,42 +9,37 @@ export default function Dashboard() {
 
   const myCars = cars.filter((car) => car.seller === user.email);
 
-  const usedCount = myCars.filter((c) => c.condition === "used").length;
+  const bestSellerCount = myCars.filter((c) => c.condition === "used").length;
   const newCount = myCars.filter((c) => c.condition === "new").length;
 
   return (
     <section className="dashboard-page">
       <div className="dashboard-container">
-        {/* HEADER */}
         <h1>Welcome, {user.name}</h1>
-        <p className="dashboard-sub">
-          Manage your car listings
-        </p>
+        <p className="dashboard-sub">Manage your product listings</p>
 
-        {/* STATS */}
         <div className="dashboard-stats">
           <div className="stat-card">
             <h3>{myCars.length}</h3>
-            <span>Total Cars</span>
+            <span>Total Products</span>
           </div>
 
           <div className="stat-card">
-            <h3>{usedCount}</h3>
-            <span>Used Cars</span>
+            <h3>{bestSellerCount}</h3>
+            <span>Best Sellers</span>
           </div>
 
           <div className="stat-card">
             <h3>{newCount}</h3>
-            <span>New Cars</span>
+            <span>New Products</span>
           </div>
         </div>
 
-        {/* LIST */}
         {myCars.length === 0 ? (
           <div className="empty-state">
-            <p>You haven’t posted any cars yet.</p>
+            <p>You have not posted any products yet.</p>
             <Link to="/sell" className="sell-btn">
-              Sell Your First Car
+              Add Your First Product
             </Link>
           </div>
         ) : (
@@ -52,23 +47,18 @@ export default function Dashboard() {
             {myCars.map((car) => (
               <div key={car.id} className="dashboard-card">
                 <div className="card-left">
-                  <img
-                    src={car.images?.[0]}
-                    alt={car.name}
-                  />
+                  <img src={car.images?.[0]} alt={car.name} />
                   <div>
                     <h3>{car.name}</h3>
                     <span>
-                      {car.year} • ₹{car.price} • {car.condition}
+                      {car.year} | Rs. {car.price} |{" "}
+                      {car.condition === "used" ? "Best Seller" : "New Product"}
                     </span>
                   </div>
                 </div>
 
                 <div className="card-actions">
-                  <Link
-                    to={`/edit/${car.id}`}
-                    className="edit-btn"
-                  >
+                  <Link to={`/edit/${car.id}`} className="edit-btn">
                     Edit
                   </Link>
 
@@ -77,7 +67,7 @@ export default function Dashboard() {
                     onClick={() => {
                       if (
                         window.confirm(
-                          "Are you sure you want to delete this car?"
+                          "Are you sure you want to delete this product?",
                         )
                       ) {
                         deleteCar(car.id);

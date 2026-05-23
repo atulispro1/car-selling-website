@@ -289,10 +289,16 @@
 }
 
 .logo-image {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  border-radius: 6px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: #111;
+  font-weight: 800;
+  font-size: 0.9rem;
 }
 
 

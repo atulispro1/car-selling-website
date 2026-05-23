@@ -18,12 +18,12 @@ export default function Home() {
       <Hero />
       <CarSearchBar />
       <StatsSection />
-      {/* ===== GALLERY SECTION ===== */}
+
       <div className="gallery-heading">
-        <h2>Explore the World of Cars</h2>
+        <h2>Explore Everyday Care Products</h2>
         <p>
-          From luxury sedans to powerful SUVs — discover vehicles that define
-          style, performance, and passion.
+          From face wash and hand soap to moisturizers and bath bars, discover
+          sample products ready for a polished storefront.
         </p>
       </div>
 

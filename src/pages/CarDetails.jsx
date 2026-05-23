@@ -20,7 +20,7 @@ export default function CarDetails() {
   const [openModal, setOpenModal] = useState(false);
 
   /* ---------------- SOCIAL STATE ---------------- */
-  const storageKey = `car-social-${id}`;
+  const storageKey = `product-social-${id}`;
   const [ratings, setRatings] = useState([]);
   const [comments, setComments] = useState([]);
   const [userRating, setUserRating] = useState(0);
@@ -53,7 +53,9 @@ export default function CarDetails() {
   if (!car) {
     return (
       <section className="car-details">
-        <h2 style={{ padding: "4rem", textAlign: "center" }}>Car not found</h2>
+        <h2 style={{ padding: "4rem", textAlign: "center" }}>
+          Product not found
+        </h2>
       </section>
     );
   }
@@ -61,14 +63,16 @@ export default function CarDetails() {
   /* ✅ OWNERSHIP CHECK */
   const isOwner = user && car.seller === user.email;
 
-  /* ---------------- SIMILAR CARS ---------------- */
+  /* ---------------- SIMILAR PRODUCTS ---------------- */
   const similarCars = cars.filter(
     (c) => c.id !== car.id && c.condition === car.condition,
   );
 
   /* ---------------- DELETE ---------------- */
   const handleDelete = () => {
-    const confirm = window.confirm("Are you sure you want to delete this car?");
+    const confirm = window.confirm(
+      "Are you sure you want to delete this product?",
+    );
     if (!confirm) return;
 
     deleteCar(car.id);
@@ -179,20 +183,21 @@ export default function CarDetails() {
         {/* INFO */}
         <div className="details-info">
           <h1>{car.name}</h1>
-          <p className="price">₹{car.price}</p>
+          <p className="price">Rs. {car.price}</p>
 
           <ul className="specs">
             <li>
-              <strong>Year:</strong> {car.year}
+              <strong>Size:</strong> {car.year}
             </li>
             <li>
-              <strong>Fuel:</strong> {car.fuel}
+              <strong>Category:</strong> {car.fuel}
             </li>
             <li>
-              <strong>Transmission:</strong> {car.transmission}
+              <strong>Pack Type:</strong> {car.transmission}
             </li>
             <li>
-              <strong>Condition:</strong> {car.condition}
+              <strong>Status:</strong>{" "}
+              {car.condition === "used" ? "Best Seller" : "New Product"}
             </li>
             <li>
               <strong>City:</strong> {car.city}
@@ -208,7 +213,7 @@ export default function CarDetails() {
 
           <div style={{ marginTop: "1rem", color: "#555" }}>
             <p>
-              <strong>Seller:</strong> {car.sellerName}
+              <strong>Store:</strong> {car.sellerName}
             </p>
             <p>
               <strong>Posted on:</strong>{" "}
@@ -247,7 +252,7 @@ export default function CarDetails() {
                 setOpenModal(true);
               }}
             >
-              Contact Seller
+              Contact Store
             </button>
           )}
         </div>
@@ -256,7 +261,7 @@ export default function CarDetails() {
       {/* ================= RATING ================= */}
       <div className="similar-section">
         <h2>Rating</h2>
-        <p>Average: {averageRating} ⭐</p>
+        <p>Average: {averageRating} stars</p>
 
         <div style={{ fontSize: "1.6rem" }}>
           {[1, 2, 3, 4, 5].map((v) => (
@@ -268,7 +273,7 @@ export default function CarDetails() {
               }}
               onClick={() => handleRating(v)}
             >
-              ★
+              *
             </span>
           ))}
         </div>
@@ -402,7 +407,7 @@ export default function CarDetails() {
       {/* ================= SIMILAR CARS ================= */}
       {similarCars.length > 0 && (
         <div className="similar-section">
-          <h2>Similar Cars</h2>
+          <h2>Similar Products</h2>
 
           <div className="similar-grid">
             {similarCars.map((c) => (
@@ -410,7 +415,7 @@ export default function CarDetails() {
                 <img src={c.images?.[0] || "/no-image.png"} alt={c.name} />
                 <div className="similar-info">
                   <h4>{c.name}</h4>
-                  <span>₹{c.price}</span>
+                  <span>Rs. {c.price}</span>
                 </div>
               </Link>
             ))}

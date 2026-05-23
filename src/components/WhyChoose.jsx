@@ -4,60 +4,45 @@ export default function WhyChoose() {
   return (
     <section className="why-choose">
       <div className="why-header">
-        <h2>Why Choose CarSell?</h2>
-        <p>
-          A smarter, faster and safer way to buy and sell cars across India
-        </p>
+        <h2>Why Choose Yusra Khan?</h2>
+        <p>A simple personal-care storefront for daily essentials and gifts</p>
       </div>
 
       <div className="why-grid">
         <div className="why-card">
-          <span className="why-icon">✅</span>
-          <h3>Verified Listings</h3>
-          <p>
-            Every car listing is posted by real users with complete details and
-            transparency.
-          </p>
+          <span className="why-icon">OK</span>
+          <h3>Curated Samples</h3>
+          <p>Browse clean sample listings for skincare, hand care, and bath care.</p>
         </div>
 
         <div className="why-card">
-          <span className="why-icon">⚡</span>
-          <h3>Fast & Easy</h3>
-          <p>
-            List your car in minutes or find your dream car without any hassle.
-          </p>
+          <span className="why-icon">01</span>
+          <h3>Easy Shopping</h3>
+          <p>Find products by name, price, and city with a quick storefront search.</p>
         </div>
 
         <div className="why-card">
-          <span className="why-icon">📞</span>
-          <h3>Direct Contact</h3>
-          <p>
-            Contact sellers directly via WhatsApp or phone — no middlemen.
-          </p>
+          <span className="why-icon">WA</span>
+          <h3>Direct WhatsApp</h3>
+          <p>Contact the store directly for product questions, orders, and availability.</p>
         </div>
 
         <div className="why-card">
-          <span className="why-icon">💰</span>
-          <h3>Best Prices</h3>
-          <p>
-            Compare multiple cars and get the best deal that fits your budget.
-          </p>
+          <span className="why-icon">RS</span>
+          <h3>Sample Pricing</h3>
+          <p>Each listing includes demo prices that can be replaced with real rates later.</p>
         </div>
 
         <div className="why-card">
-          <span className="why-icon">🚗</span>
-          <h3>New & Used Cars</h3>
-          <p>
-            Explore both brand-new models and trusted used cars in one place.
-          </p>
+          <span className="why-icon">YK</span>
+          <h3>Beauty Essentials</h3>
+          <p>Face wash, soap, serum, moisturizer, lotion, and hair oil in one place.</p>
         </div>
 
         <div className="why-card">
-          <span className="why-icon">🔒</span>
-          <h3>Secure Platform</h3>
-          <p>
-            Your data is safe and your listings stay under your control.
-          </p>
+          <span className="why-icon">24</span>
+          <h3>Ready to Expand</h3>
+          <p>The catalog is prepared for more products, images, and live inventory.</p>
         </div>
       </div>
     </section>

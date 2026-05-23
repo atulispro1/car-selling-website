@@ -23,7 +23,7 @@ function StatCard({ label, value, suffix }) {
           }, stepTime);
         }
       },
-      { threshold: 0.6 }
+      { threshold: 0.6 },
     );
 
     if (ref.current) observer.observe(ref.current);
@@ -45,10 +45,10 @@ export default function StatsSection() {
   return (
     <section className="stats-section">
       <div className="stats-container">
-        <StatCard label="Cars Listed" value={100} suffix="+" />
-        <StatCard label="Verified Sellers" value={500} suffix="+" />
-        <StatCard label="Cities Covered" value={10} suffix="+" />
-        <StatCard label="Happy Buyers" value={1500} suffix="+" />
+        <StatCard label="Sample Products" value={80} suffix="+" />
+        <StatCard label="Care Categories" value={12} suffix="+" />
+        <StatCard label="Cities Served" value={10} suffix="+" />
+        <StatCard label="Happy Customers" value={1200} suffix="+" />
       </div>
     </section>
   );

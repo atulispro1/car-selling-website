@@ -1,8 +1,6 @@
 import "./../styles/contact.css";
 
 export default function Contact() {
-  // 🔴 CHANGE THIS NUMBER ONLY
-  // Format: countrycode + number (NO +, NO spaces)
   const whatsappNumber = "917060160754";
 
   const handleSubmit = (e) => {
@@ -12,8 +10,7 @@ export default function Contact() {
     const email = e.target.email.value;
     const message = e.target.message.value;
 
-    const whatsappMessage = `Hello, I contacted you from CarSell website.%0A%0AName: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
-
+    const whatsappMessage = `Hello, I contacted you from Yusra Khan website.%0A%0AName: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
     window.open(whatsappURL, "_blank");
@@ -22,17 +19,16 @@ export default function Contact() {
   return (
     <section className="contact-page">
       <div className="contact-container">
-        {/* LEFT INFO */}
         <div className="contact-info">
-          <h1>Contact Us</h1>
+          <h1>Contact Yusra Khan</h1>
           <p>
-            Have questions about buying or selling a car?
-            We’re here to help you.
+            Have questions about skincare, soap, hand wash, bundles, or sample
+            products? We are here to help you.
           </p>
 
           <div className="info-box">
             <h4>Email</h4>
-            <span>atulsharmas2806@gmail.com</span>
+            <span>hello@yusrakhan.com</span>
           </div>
 
           <div className="info-box">
@@ -46,17 +42,11 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* RIGHT FORM */}
         <div className="contact-form">
           <h2>Send us a message</h2>
 
           <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              required
-            />
+            <input type="text" name="name" placeholder="Your Name" required />
 
             <input
               type="email"
