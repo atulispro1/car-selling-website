@@ -1,4 +1,4 @@
-import "./../styles/howItWorks.css";
+import "./../styles/HowItWorks.css";
 
 export default function HowItWorks() {
   return (
