@@ -13,19 +13,6 @@ import { auth, db } from "../firebase/firebase";
 import { isAdminEmail } from "../config/admin";
 
 const CarsContext = createContext();
-const LOCAL_CARS_KEY = "yusra-local-products";
-
-function readLocalCars() {
-  try {
-    return JSON.parse(localStorage.getItem(LOCAL_CARS_KEY)) || [];
-  } catch {
-    return [];
-  }
-}
-
-function writeLocalCars(cars) {
-  localStorage.setItem(LOCAL_CARS_KEY, JSON.stringify(cars));
-}
 
 function isPermissionError(error) {
   return (
@@ -36,7 +23,6 @@ function isPermissionError(error) {
 
 export function CarsProvider({ children }) {
   const [cloudCars, setCloudCars] = useState([]);
-  const [localCars, setLocalCars] = useState(() => readLocalCars());
   const [loading, setLoading] = useState(true);
 
   /* ================= FETCH PRODUCTS ================= */
@@ -59,15 +45,6 @@ export function CarsProvider({ children }) {
     return () => unsub();
   }, []);
 
-  const saveLocalCars = (updater) => {
-    setLocalCars((currentCars) => {
-      const nextCars =
-        typeof updater === "function" ? updater(currentCars) : updater;
-      writeLocalCars(nextCars);
-      return nextCars;
-    });
-  };
-
   /* ================= ADD PRODUCT ================= */
   const addCar = async (car) => {
     if (!isAdminEmail(auth.currentUser?.email)) {
@@ -84,13 +61,9 @@ export function CarsProvider({ children }) {
         throw error;
       }
 
-      const localCar = {
-        ...car,
-        id: `local-${Date.now()}`,
-        createdAt: new Date().toISOString(),
-      };
-
-      saveLocalCars((currentCars) => [...currentCars, localCar]);
+      throw new Error(
+        "Firebase blocked this product save. Update Firestore rules to allow the admin account to create products.",
+      );
     }
   };
 
@@ -98,11 +71,6 @@ export function CarsProvider({ children }) {
   const deleteCar = async (id) => {
     if (!isAdminEmail(auth.currentUser?.email)) {
       throw new Error("Only the admin can delete products.");
-    }
-
-    if (id.startsWith("local-")) {
-      saveLocalCars((currentCars) => currentCars.filter((car) => car.id !== id));
-      return;
     }
 
     try {
@@ -122,13 +90,6 @@ export function CarsProvider({ children }) {
   const updateCar = async (updatedCar) => {
     if (!isAdminEmail(auth.currentUser?.email)) {
       throw new Error("Only the admin can update products.");
-    }
-
-    if (updatedCar.id.startsWith("local-")) {
-      saveLocalCars((currentCars) =>
-        currentCars.map((car) => (car.id === updatedCar.id ? updatedCar : car)),
-      );
-      return;
     }
 
     const ref = doc(db, "cars", updatedCar.id);
@@ -185,16 +146,10 @@ export function CarsProvider({ children }) {
     );
   };
 
-  /* ================= MERGE CLOUD + LOCAL ================= */
-  const cars = [
-    ...cloudCars,
-    ...localCars.map((car) => ({ ...car, isLocal: true })),
-  ];
-
   return (
     <CarsContext.Provider
       value={{
-        cars,
+        cars: cloudCars,
         loading,
         addCar,
         deleteCar,
