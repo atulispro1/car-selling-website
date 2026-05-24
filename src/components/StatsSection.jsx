@@ -45,7 +45,7 @@ export default function StatsSection() {
   return (
     <section className="stats-section">
       <div className="stats-container">
-        <StatCard label="Sample Products" value={80} suffix="+" />
+        <StatCard label="Products Ready" value={80} suffix="+" />
         <StatCard label="Care Categories" value={12} suffix="+" />
         <StatCard label="Cities Served" value={10} suffix="+" />
         <StatCard label="Happy Customers" value={1200} suffix="+" />

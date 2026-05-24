@@ -45,17 +45,24 @@ export default function App() {
             <Route
               path="/sell"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute adminOnly>
                   <SellCar />
                 </ProtectedRoute>
               }
             />
 
-            <Route path="/edit/:id" element={<EditCar />} />
+            <Route
+              path="/edit/:id"
+              element={
+                <ProtectedRoute adminOnly>
+                  <EditCar />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/dashboard"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute adminOnly>
                   <Dashboard />
                 </ProtectedRoute>
               }

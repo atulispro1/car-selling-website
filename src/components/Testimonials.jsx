@@ -12,7 +12,7 @@ export default function Testimonials() {
       name: "Ananya Verma",
       city: "Mumbai",
       rating: 4,
-      text: "Loved browsing the product images. The sample catalog feels clean and easy.",
+      text: "Loved browsing the product images. The catalog feels clean and easy.",
     },
     {
       name: "Mehak Ali",

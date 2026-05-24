@@ -17,21 +17,10 @@ export default function EditCar() {
 
   const car = cars.find((c) => c.id === id);
 
-  const [formData, setFormData] = useState(null);
+  const [formData, setFormData] = useState(() => {
+    if (!car) return null;
 
-  useEffect(() => {
-    if (!car) {
-      navigate("/");
-      return;
-    }
-
-    if (car.seller !== user?.email) {
-      alert("You are not allowed to edit this product.");
-      navigate("/");
-      return;
-    }
-
-    setFormData({
+    return {
       brand: car.name.split(" ")[0],
       model: car.name.split(" ").slice(1).join(" "),
       year: car.year,
@@ -41,7 +30,21 @@ export default function EditCar() {
       city: car.city,
       condition: car.condition,
       description: car.description || "",
-    });
+    };
+  });
+
+  useEffect(() => {
+    if (!car) {
+      navigate("/");
+      return;
+    }
+
+    if (!user?.isAdmin) {
+      alert("You are not allowed to edit this product.");
+      navigate("/");
+      return;
+    }
+
   }, [car, user, navigate]);
 
   useEffect(() => {
@@ -61,8 +64,14 @@ export default function EditCar() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user?.isAdmin) {
+      alert("You are not allowed to edit this product.");
+      navigate("/cars");
+      return;
+    }
 
     const updatedCar = {
       ...car,
@@ -76,8 +85,12 @@ export default function EditCar() {
       description: formData.description,
     };
 
-    updateCar(updatedCar);
-    navigate(`/cars/${car.id}`);
+    try {
+      await updateCar(updatedCar);
+      navigate(`/cars/${car.id}`);
+    } catch (error) {
+      alert(error.message || "Product could not be updated.");
+    }
   };
 
   return (

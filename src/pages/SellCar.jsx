@@ -9,6 +9,7 @@ import "./../styles/sellCar.css";
 
 const CLOUD_NAME = "do7fuzdao";
 const UPLOAD_PRESET = "carsell_unsigned";
+const STORE_WHATSAPP_NUMBER = "7900377204";
 
 export default function SellCar() {
   const formRef = useRef(null);
@@ -26,19 +27,25 @@ export default function SellCar() {
     price: "",
     city: "",
     condition: "",
-    sellerPhone: "",
     description: "",
   });
 
   const [images, setImages] = useState([]);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (!user) {
       alert("You must be logged in to add a product.");
       navigate("/login");
+      return;
+    }
+
+    if (!user.isAdmin) {
+      alert("Only the admin can add products.");
+      navigate("/cars");
     }
   }, [user, navigate]);
 
@@ -105,17 +112,24 @@ export default function SellCar() {
     if (!formData.price) e.price = "Required";
     if (!formData.city) e.city = "Required";
     if (!formData.condition) e.condition = "Required";
-    if (!formData.sellerPhone) e.sellerPhone = "Required";
     if (images.length === 0) e.images = "At least one image required";
     return e;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user?.isAdmin) {
+      alert("Only the admin can add products.");
+      navigate("/cars");
+      return;
+    }
 
     const validationErrors = validate();
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length !== 0) return;
+
+    setIsSubmitting(true);
 
     const newCar = {
       name: `${formData.brand} ${formData.model}`,
@@ -126,14 +140,20 @@ export default function SellCar() {
       city: formData.city,
       condition: formData.condition,
       description: formData.description,
-      sellerPhone: formData.sellerPhone,
+      sellerPhone: STORE_WHATSAPP_NUMBER,
       images,
       seller: user.email,
       sellerName: user.name,
     };
 
-    addCar(newCar);
-    setSubmitted(true);
+    try {
+      await addCar(newCar);
+      setSubmitted(true);
+    } catch (error) {
+      alert(error.message || "Product could not be added.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -206,12 +226,6 @@ export default function SellCar() {
           />
           <input name="city" placeholder="City" onChange={handleChange} />
 
-          <input
-            name="sellerPhone"
-            placeholder="WhatsApp Number"
-            onChange={handleChange}
-          />
-
           <select name="condition" onChange={handleChange}>
             <option value="">Product Status</option>
             <option value="new">New Product</option>
@@ -239,8 +253,17 @@ export default function SellCar() {
             ))}
           </div>
 
-          <button className="submit-btn" disabled={loading}>
-            {loading ? "Uploading..." : "Submit Product"}
+          <button className="submit-btn" disabled={loading || isSubmitting}>
+            {isSubmitting ? (
+              <span className="submit-progress">
+                <span className="submit-spinner"></span>
+                Submitting product, please wait...
+              </span>
+            ) : loading ? (
+              "Uploading images..."
+            ) : (
+              "Submit Product"
+            )}
           </button>
         </form>
       </div>

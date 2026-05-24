@@ -18,7 +18,7 @@ export default function Newsletter() {
       <div className="newsletter-card">
         <h2>Stay Updated</h2>
         <p>
-          Subscribe for new skincare drops, soap bundles, sample deals, and
+          Subscribe for new skincare drops, soap bundles, product deals, and
           product updates from Yusra Khan.
         </p>
 

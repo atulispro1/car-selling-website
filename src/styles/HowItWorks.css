@@ -64,6 +64,51 @@
   line-height: 1.5;
 }
 
+@media (max-width: 640px) {
+  .how-it-works {
+    padding: 1.8rem 4%;
+  }
+
+  .how-header {
+    margin-bottom: 1.2rem;
+  }
+
+  .how-header h2 {
+    font-size: 1.45rem;
+  }
+
+  .how-header p {
+    font-size: 0.88rem;
+  }
+
+  .how-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .how-step {
+    padding: 1rem 0.65rem;
+    border-radius: 10px;
+  }
+
+  .step-number {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 0.65rem;
+    font-size: 1rem;
+  }
+
+  .how-step h3 {
+    font-size: 0.9rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .how-step p {
+    font-size: 0.72rem;
+    line-height: 1.35;
+  }
+}
+
 /* 🌙 Dark Mode */
 body[data-theme="dark"] .how-it-works {
   background: #020617;

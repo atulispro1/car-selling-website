@@ -11,8 +11,8 @@ export default function CTASection() {
       <div className="cta-content">
         <h2>Ready to Build a Product Order?</h2>
         <p>
-          Browse sample skincare and daily-care products, then contact Yusra
-          Khan directly for availability and custom bundles.
+          Browse skincare and daily-care products, then contact Yusra Khan
+          directly for availability and custom bundles.
         </p>
 
         <div className="cta-buttons">

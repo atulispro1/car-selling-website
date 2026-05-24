@@ -8,7 +8,7 @@ const images = [
   "https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=700&q=80",
   "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=700&q=80",
   "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=700&q=80",
-  "https://images.unsplash.com/photo-1607006483224-821d67669d22?auto=format&fit=crop&w=700&q=80",
+  "https://plus.unsplash.com/premium_photo-1661630971367-15853002aee8?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZmFjZSUyMGNhcmUlMjBpdGVtc3xlbnwwfHwwfHx8MA%3D%3D",
   "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=700&q=80",
   "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=700&q=80",
 ];

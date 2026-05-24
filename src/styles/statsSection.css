@@ -55,3 +55,29 @@ body[data-theme="dark"] .stats-section {
 body[data-theme="dark"] .stat-card p {
   color: #ccc;
 }
+
+@media (max-width: 640px) {
+  .stats-section {
+    padding: 1.5rem 4%;
+  }
+
+  .stats-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .stat-card {
+    padding: 1rem 0.65rem;
+    border-radius: 10px;
+  }
+
+  .stat-card h3 {
+    font-size: 1.45rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-card p {
+    font-size: 0.74rem;
+    letter-spacing: 0;
+  }
+}

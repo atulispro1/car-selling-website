@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./../styles/searchBar.css";
 
 export default function CarSearchBar({ onSearch = () => {} }) {
@@ -6,19 +6,17 @@ export default function CarSearchBar({ onSearch = () => {} }) {
   const [city, setCity] = useState("");
   const [priceRange, setPriceRange] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  useEffect(() => {
     onSearch({
       query: query.trim(),
       city,
       priceRange,
     });
-  };
+  }, [query, city, priceRange, onSearch]);
 
   return (
     <section className="search-section">
-      <form className="search-box" onSubmit={handleSubmit}>
+      <div className="search-box">
         <input
           type="text"
           placeholder="Search face wash, soap, serum..."
@@ -47,9 +45,7 @@ export default function CarSearchBar({ onSearch = () => {} }) {
           <option value="500-750">Rs. 500 - Rs. 750</option>
           <option value="750-5000">Rs. 750+</option>
         </select>
-
-        <button type="submit">Search</button>
-      </form>
+      </div>
     </section>
   );
 }

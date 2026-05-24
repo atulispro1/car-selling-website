@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import {
   collection,
   addDoc,
-  getDocs,
   deleteDoc,
   updateDoc,
   doc,
@@ -10,44 +9,128 @@ import {
   setDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import { db } from "../firebase/firebase";
-import { demoCars } from "../data/demoCars";
+import { auth, db } from "../firebase/firebase";
+import { isAdminEmail } from "../config/admin";
 
 const CarsContext = createContext();
+const LOCAL_CARS_KEY = "yusra-local-products";
+
+function readLocalCars() {
+  try {
+    return JSON.parse(localStorage.getItem(LOCAL_CARS_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalCars(cars) {
+  localStorage.setItem(LOCAL_CARS_KEY, JSON.stringify(cars));
+}
+
+function isPermissionError(error) {
+  return (
+    error?.code === "permission-denied" ||
+    error?.message?.toLowerCase().includes("insufficient permissions")
+  );
+}
 
 export function CarsProvider({ children }) {
   const [cloudCars, setCloudCars] = useState([]);
+  const [localCars, setLocalCars] = useState(() => readLocalCars());
   const [loading, setLoading] = useState(true);
 
-  /* ================= FETCH CARS ================= */
+  /* ================= FETCH PRODUCTS ================= */
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, "cars"), (snapshot) => {
-      const carsData = snapshot.docs.map((d) => ({
-        id: d.id,
-        ...d.data(),
-      }));
-      setCloudCars(carsData);
-      setLoading(false);
-    });
+    const unsub = onSnapshot(
+      collection(db, "cars"),
+      (snapshot) => {
+        const carsData = snapshot.docs.map((d) => ({
+          id: d.id,
+          ...d.data(),
+        }));
+        setCloudCars(carsData);
+        setLoading(false);
+      },
+      () => {
+        setLoading(false);
+      },
+    );
 
     return () => unsub();
   }, []);
 
-  /* ================= ADD CAR ================= */
-  const addCar = async (car) => {
-    await addDoc(collection(db, "cars"), {
-      ...car,
-      createdAt: serverTimestamp(),
+  const saveLocalCars = (updater) => {
+    setLocalCars((currentCars) => {
+      const nextCars =
+        typeof updater === "function" ? updater(currentCars) : updater;
+      writeLocalCars(nextCars);
+      return nextCars;
     });
   };
 
-  /* ================= DELETE CAR ================= */
-  const deleteCar = async (id) => {
-    await deleteDoc(doc(db, "cars", id));
+  /* ================= ADD PRODUCT ================= */
+  const addCar = async (car) => {
+    if (!isAdminEmail(auth.currentUser?.email)) {
+      throw new Error("Only the admin can add products.");
+    }
+
+    try {
+      await addDoc(collection(db, "cars"), {
+        ...car,
+        createdAt: serverTimestamp(),
+      });
+    } catch (error) {
+      if (!isPermissionError(error)) {
+        throw error;
+      }
+
+      const localCar = {
+        ...car,
+        id: `local-${Date.now()}`,
+        createdAt: new Date().toISOString(),
+      };
+
+      saveLocalCars((currentCars) => [...currentCars, localCar]);
+    }
   };
 
-  /* ================= UPDATE CAR ================= */
+  /* ================= DELETE PRODUCT ================= */
+  const deleteCar = async (id) => {
+    if (!isAdminEmail(auth.currentUser?.email)) {
+      throw new Error("Only the admin can delete products.");
+    }
+
+    if (id.startsWith("local-")) {
+      saveLocalCars((currentCars) => currentCars.filter((car) => car.id !== id));
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(db, "cars", id));
+    } catch (error) {
+      if (!isPermissionError(error)) {
+        throw error;
+      }
+
+      throw new Error(
+        "Firebase blocked this delete. Update Firestore rules to allow the admin account to delete products.",
+      );
+    }
+  };
+
+  /* ================= UPDATE PRODUCT ================= */
   const updateCar = async (updatedCar) => {
+    if (!isAdminEmail(auth.currentUser?.email)) {
+      throw new Error("Only the admin can update products.");
+    }
+
+    if (updatedCar.id.startsWith("local-")) {
+      saveLocalCars((currentCars) =>
+        currentCars.map((car) => (car.id === updatedCar.id ? updatedCar : car)),
+      );
+      return;
+    }
+
     const ref = doc(db, "cars", updatedCar.id);
     await updateDoc(ref, updatedCar);
   };
@@ -102,8 +185,11 @@ export function CarsProvider({ children }) {
     );
   };
 
-  /* ================= MERGE DEMO + CLOUD ================= */
-  const cars = [...demoCars, ...cloudCars];
+  /* ================= MERGE CLOUD + LOCAL ================= */
+  const cars = [
+    ...cloudCars,
+    ...localCars.map((car) => ({ ...car, isLocal: true })),
+  ];
 
   return (
     <CarsContext.Provider

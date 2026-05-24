@@ -1,9 +1,17 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useCars } from "../context/CarsContext";
 import CarCard from "./CarCard";
 import "./../styles/carsListing.css";
 
-export default function CarsListing({ type, filters = {} }) {
+export default function CarsListing({
+  type,
+  filters = {},
+  initialLimit,
+  showExploreButton = false,
+}) {
   const { cars } = useCars();
+  const [showAll, setShowAll] = useState(false);
 
   let filteredCars = cars;
 
@@ -13,9 +21,20 @@ export default function CarsListing({ type, filters = {} }) {
 
   if (filters.query) {
     const q = filters.query.toLowerCase();
-    filteredCars = filteredCars.filter((car) =>
-      car.name.toLowerCase().includes(q),
-    );
+    filteredCars = filteredCars.filter((car) => {
+      const searchableText = [
+        car.name,
+        car.fuel,
+        car.transmission,
+        car.city,
+        car.condition === "used" ? "best seller" : "new product",
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return searchableText.includes(q);
+    });
   }
 
   if (filters.city) {
@@ -39,6 +58,10 @@ export default function CarsListing({ type, filters = {} }) {
     );
   }
 
+  const hasLimit = initialLimit && filteredCars.length > initialLimit;
+  const visibleCars =
+    hasLimit && !showAll ? filteredCars.slice(0, initialLimit) : filteredCars;
+
   return (
     <section className="cars-listing">
       <div className="listing-header">
@@ -46,10 +69,26 @@ export default function CarsListing({ type, filters = {} }) {
       </div>
 
       <div className="listing-grid">
-        {filteredCars.map((car) => (
+        {visibleCars.map((car) => (
           <CarCard key={car.id} car={car} />
         ))}
       </div>
+
+      {(hasLimit || showExploreButton) && (
+        <div className="listing-actions">
+          {hasLimit && !showAll && (
+            <button className="show-more-btn" onClick={() => setShowAll(true)}>
+              Show More
+            </button>
+          )}
+
+          {showExploreButton && (
+            <Link to="/cars" className="explore-all-btn">
+              Explore All Products
+            </Link>
+          )}
+        </div>
+      )}
     </section>
   );
 }

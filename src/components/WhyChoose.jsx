@@ -11,8 +11,8 @@ export default function WhyChoose() {
       <div className="why-grid">
         <div className="why-card">
           <span className="why-icon">OK</span>
-          <h3>Curated Samples</h3>
-          <p>Browse clean sample listings for skincare, hand care, and bath care.</p>
+          <h3>Curated Products</h3>
+          <p>Browse clean listings for skincare, hand care, and bath care.</p>
         </div>
 
         <div className="why-card">
@@ -29,8 +29,8 @@ export default function WhyChoose() {
 
         <div className="why-card">
           <span className="why-icon">RS</span>
-          <h3>Sample Pricing</h3>
-          <p>Each listing includes demo prices that can be replaced with real rates later.</p>
+          <h3>Clear Pricing</h3>
+          <p>Each listing includes product pricing and useful details.</p>
         </div>
 
         <div className="why-card">

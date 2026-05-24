@@ -7,11 +7,11 @@ export default function Footer() {
       <div className="footer-top">
         <div className="footer-col">
           <h3>Yusra Khan</h3>
-          <p>Sample product storefront</p>
+          <p>Product storefront</p>
           <br />
           <p>
-            Shop sample skincare, soaps, hand wash, body care, and daily
-            essentials with clear product images and details.
+            Shop skincare, soaps, hand wash, body care, and daily essentials
+            with clear product images and details.
           </p>
         </div>
 

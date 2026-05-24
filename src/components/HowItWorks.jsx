@@ -30,7 +30,7 @@ export default function HowItWorks() {
         <div className="how-step">
           <div className="step-number">4</div>
           <h3>Place Order</h3>
-          <p>Finalize sample orders directly with the store until checkout is added.</p>
+          <p>Finalize orders directly with the store until checkout is added.</p>
         </div>
       </div>
     </section>

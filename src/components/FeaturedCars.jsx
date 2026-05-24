@@ -20,15 +20,19 @@ export default function FeaturedCars() {
     <section className="featured-cars">
       <div className="featured-header">
         <h2>Featured Products</h2>
-        <p>Explore the latest sample products in the Yusra Khan catalog</p>
+        <p>Explore the latest products in the Yusra Khan catalog</p>
       </div>
 
       <div className="cars-grid">
         {cars.map((car) => (
           <div key={car.id} className="car-card">
-            <div className="car-image">
+            <Link
+              to={`/cars/${car.id}`}
+              className="car-image"
+              aria-label={car.name}
+            >
               <img src={car.images?.[0] || "/no-image.png"} alt={car.name} />
-            </div>
+            </Link>
 
             <div className="car-info">
               <h3>{car.name}</h3>

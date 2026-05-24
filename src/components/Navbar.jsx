@@ -13,6 +13,12 @@ export default function Navbar() {
 
   const isAuthPage = location.pathname === "/login";
   const firstLetter = user?.name?.charAt(0).toUpperCase();
+  const isAdmin = Boolean(user?.isAdmin);
+
+  const handleLogout = async () => {
+    await logout();
+    window.location.assign("/");
+  };
 
   const handleSellClick = () => {
     if (!user) {
@@ -20,6 +26,16 @@ export default function Navbar() {
       navigate("/login");
       return;
     }
+
+    if (!isAdmin) {
+      alert(
+        "Only the admin can add products. You can browse, comment, and buy products.",
+      );
+      navigate("/cars");
+      setMenuOpen(false);
+      return;
+    }
+
     navigate("/sell");
     setMenuOpen(false);
   };
@@ -40,43 +56,50 @@ export default function Navbar() {
       <div className="nav-right desktop-only">
         {!isAuthPage && <ThemeToggle />}
 
-        <button className="sell-btn" onClick={handleSellClick}>
-          Add Product
-        </button>
+        {isAdmin && (
+          <button className="sell-btn" onClick={handleSellClick}>
+            Add Product
+          </button>
+        )}
 
         {user ? (
           <div className="user-area">
             <div className="user-avatar">{firstLetter}</div>
             <span className="user-greeting">Hi, {user.name.split(" ")[0]}</span>
 
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                isActive
-                  ? "dashboard-btn dashboard-btn-active"
-                  : "dashboard-btn"
-              }
-            >
-              Dashboard
-            </NavLink>
+            {isAdmin && (
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  isActive
+                    ? "dashboard-btn dashboard-btn-active"
+                    : "dashboard-btn"
+                }
+              >
+                Dashboard
+              </NavLink>
+            )}
 
-            <button className="logout-btn" onClick={logout}>
+            <button className="logout-btn" onClick={handleLogout}>
               Logout
             </button>
           </div>
         ) : (
           <Link to="/login" className="login-link">
-            Login
+            Admin Login
           </Link>
         )}
       </div>
 
       <button
-        className="hamburger"
+        className={`hamburger ${menuOpen ? "open" : ""}`}
         aria-label="Toggle menu"
+        aria-expanded={menuOpen}
         onClick={() => setMenuOpen(!menuOpen)}
       >
-        Menu
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
 
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
@@ -97,22 +120,27 @@ export default function Navbar() {
           Contact
         </Link>
 
-        <button className="sell-btn" onClick={handleSellClick}>
-          Add Product
-        </button>
+        {isAdmin && (
+          <button className="sell-btn" onClick={handleSellClick}>
+            Add Product
+          </button>
+        )}
 
         {!isAuthPage && <ThemeToggle />}
 
         {user ? (
           <>
-            <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-              Dashboard
-            </Link>
+            {isAdmin && (
+              <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                Dashboard
+              </Link>
+            )}
             <button
               className="logout-btn"
-              onClick={() => {
-                logout();
+              onClick={async () => {
+                await logout();
                 setMenuOpen(false);
+                window.location.assign("/");
               }}
             >
               Logout
@@ -120,7 +148,7 @@ export default function Navbar() {
           </>
         ) : (
           <Link to="/login" onClick={() => setMenuOpen(false)}>
-            Login
+            Admin Login
           </Link>
         )}
       </div>

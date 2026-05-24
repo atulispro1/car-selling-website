@@ -7,7 +7,7 @@ export default function Dashboard() {
   const { cars, deleteCar } = useCars();
   const { user } = useAuth();
 
-  const myCars = cars.filter((car) => car.seller === user.email);
+  const myCars = cars;
 
   const bestSellerCount = myCars.filter((c) => c.condition === "used").length;
   const newCount = myCars.filter((c) => c.condition === "new").length;
@@ -39,7 +39,7 @@ export default function Dashboard() {
           <div className="empty-state">
             <p>You have not posted any products yet.</p>
             <Link to="/sell" className="sell-btn">
-              Add Your First Product
+              Add First Product
             </Link>
           </div>
         ) : (
@@ -70,7 +70,11 @@ export default function Dashboard() {
                           "Are you sure you want to delete this product?",
                         )
                       ) {
-                        deleteCar(car.id);
+                        deleteCar(car.id).catch((error) => {
+                          alert(
+                            error.message || "Product could not be deleted.",
+                          );
+                        });
                       }
                     }}
                   >

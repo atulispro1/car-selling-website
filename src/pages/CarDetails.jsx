@@ -1,11 +1,28 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { useCars } from "../context/CarsContext";
 import { useAuth } from "../context/AuthContext";
 import ContactModal from "../components/ContactModal";
 
 import "./../styles/carDetails.css";
+
+function readProductSocial(storageKey, userEmail) {
+  const saved = JSON.parse(localStorage.getItem(storageKey)) || {
+    ratings: [],
+    comments: [],
+  };
+
+  const existingRating = saved.ratings.find((r) => r.email === userEmail);
+
+  return {
+    storageKey,
+    userEmail,
+    ratings: saved.ratings,
+    comments: saved.comments,
+    userRating: existingRating?.value || 0,
+  };
+}
 
 export default function CarDetails() {
   const { id } = useParams();
@@ -21,26 +38,19 @@ export default function CarDetails() {
 
   /* ---------------- SOCIAL STATE ---------------- */
   const storageKey = `product-social-${id}`;
-  const [ratings, setRatings] = useState([]);
-  const [comments, setComments] = useState([]);
-  const [userRating, setUserRating] = useState(0);
+  const userEmail = user?.email || "";
+  const [social, setSocial] = useState(() =>
+    readProductSocial(storageKey, userEmail),
+  );
   const [commentText, setCommentText] = useState("");
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editText, setEditText] = useState("");
 
-  /* ---------------- LOAD SOCIAL DATA ---------------- */
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem(storageKey)) || {
-      ratings: [],
-      comments: [],
-    };
+  if (social.storageKey !== storageKey || social.userEmail !== userEmail) {
+    setSocial(readProductSocial(storageKey, userEmail));
+  }
 
-    setRatings(saved.ratings);
-    setComments(saved.comments);
-
-    if (user) {
-      const existing = saved.ratings.find((r) => r.email === user.email);
-      if (existing) setUserRating(existing.value);
-    }
-  }, [id, user]);
+  const { ratings, comments, userRating } = social;
 
   /* ---------------- SAVE SOCIAL DATA ---------------- */
   const persistSocial = (newRatings, newComments) => {
@@ -60,8 +70,7 @@ export default function CarDetails() {
     );
   }
 
-  /* ✅ OWNERSHIP CHECK */
-  const isOwner = user && car.seller === user.email;
+  const canManageProduct = Boolean(user?.isAdmin);
 
   /* ---------------- SIMILAR PRODUCTS ---------------- */
   const similarCars = cars.filter(
@@ -75,22 +84,27 @@ export default function CarDetails() {
     );
     if (!confirm) return;
 
-    deleteCar(car.id);
-    navigate("/cars");
+    deleteCar(car.id)
+      .then(() => navigate("/cars"))
+      .catch((error) => {
+        alert(error.message || "Product could not be deleted.");
+      });
   };
 
   /* ---------------- RATING ---------------- */
   const handleRating = (value) => {
     if (!user) {
-      navigate("/login");
       return;
     }
 
     const filtered = ratings.filter((r) => r.email !== user.email);
     const updated = [...filtered, { email: user.email, value }];
 
-    setRatings(updated);
-    setUserRating(value);
+    setSocial((prev) => ({
+      ...prev,
+      ratings: updated,
+      userRating: value,
+    }));
     persistSocial(updated, comments);
   };
 
@@ -113,14 +127,14 @@ export default function CarDetails() {
     };
 
     const updatedComments = [newComment, ...comments];
-    setComments(updatedComments);
+    setSocial((prev) => ({
+      ...prev,
+      comments: updatedComments,
+    }));
     setCommentText("");
 
     persistSocial(ratings, updatedComments);
   };
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [editText, setEditText] = useState("");
-
   /* ---------------- EDIT COMMENT ---------------- */
   const startEdit = (index, text) => {
     setEditingIndex(index);
@@ -136,7 +150,10 @@ export default function CarDetails() {
       text: editText,
     };
 
-    setComments(updatedComments);
+    setSocial((prev) => ({
+      ...prev,
+      comments: updatedComments,
+    }));
     persistSocial(ratings, updatedComments);
 
     setEditingIndex(null);
@@ -149,7 +166,10 @@ export default function CarDetails() {
     if (!confirm) return;
 
     const updatedComments = comments.filter((_, i) => i !== index);
-    setComments(updatedComments);
+    setSocial((prev) => ({
+      ...prev,
+      comments: updatedComments,
+    }));
     persistSocial(ratings, updatedComments);
   };
 
@@ -222,7 +242,7 @@ export default function CarDetails() {
           </div>
 
           {/* OWNER ACTIONS */}
-          {isOwner && (
+          {canManageProduct && (
             <div style={{ marginTop: "1.5rem", display: "flex", gap: "1rem" }}>
               <button
                 className="contact-btn"
@@ -241,14 +261,10 @@ export default function CarDetails() {
             </div>
           )}
 
-          {!isOwner && (
+          {!user?.isAdmin && (
             <button
               className="contact-btn"
               onClick={() => {
-                if (!user) {
-                  navigate("/login");
-                  return;
-                }
                 setOpenModal(true);
               }}
             >
@@ -404,7 +420,7 @@ export default function CarDetails() {
         })}
       </div>
 
-      {/* ================= SIMILAR CARS ================= */}
+      {/* ================= SIMILAR PRODUCTS ================= */}
       {similarCars.length > 0 && (
         <div className="similar-section">
           <h2>Similar Products</h2>

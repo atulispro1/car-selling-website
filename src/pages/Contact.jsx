@@ -1,7 +1,7 @@
 import "./../styles/contact.css";
 
 export default function Contact() {
-  const whatsappNumber = "917060160754";
+  const whatsappNumber = "7900377204";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,8 +22,8 @@ export default function Contact() {
         <div className="contact-info">
           <h1>Contact Yusra Khan</h1>
           <p>
-            Have questions about skincare, soap, hand wash, bundles, or sample
-            products? We are here to help you.
+            Have questions about skincare, soap, hand wash, bundles, or product
+            availability? We are here to help you.
           </p>
 
           <div className="info-box">
@@ -33,7 +33,7 @@ export default function Contact() {
 
           <div className="info-box">
             <h4>Phone</h4>
-            <span>+91 70601 60754</span>
+            <span>+91 79003 77204</span>
           </div>
 
           <div className="info-box">
