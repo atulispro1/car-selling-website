@@ -13,7 +13,6 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../firebase/firebase";
 import { isAdminEmail } from "../config/admin";
-import { signInAnonymously } from "firebase/auth";
 
 const CarsContext = createContext();
 
@@ -128,10 +127,8 @@ export function CarsProvider({ children }) {
   };
 
   /* ================= RATINGS ================= */
-  const setRating = async (carId, value) => {
-    const currentUser =
-      auth.currentUser || (await signInAnonymously(auth)).user;
-    const ref = doc(db, "cars", carId, "ratings", currentUser.uid);
+  const setRating = async (carId, voterId, value) => {
+    const ref = doc(db, "cars", carId, "ratings", voterId);
 
     await setDoc(ref, {
       value,
