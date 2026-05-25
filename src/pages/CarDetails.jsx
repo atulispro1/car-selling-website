@@ -7,8 +7,6 @@ import ContactModal from "../components/ContactModal";
 
 import "./../styles/carDetails.css";
 
-const RATING_VISITOR_KEY = "yusieorganics-rating-visitor";
-
 function formatPostedDate(value) {
   if (!value) return "Recently added";
 
@@ -22,16 +20,6 @@ function formatPostedDate(value) {
     month: "long",
     year: "numeric",
   });
-}
-
-function getRatingVisitorId() {
-  const existingId = localStorage.getItem(RATING_VISITOR_KEY);
-  if (existingId) return existingId;
-
-  const nextId =
-    crypto?.randomUUID?.() || `visitor-${Date.now()}-${Math.random()}`;
-  localStorage.setItem(RATING_VISITOR_KEY, nextId);
-  return nextId;
 }
 
 export default function CarDetails() {
@@ -69,13 +57,9 @@ export default function CarDetails() {
   useEffect(() => {
     if (!id) return undefined;
 
-    const visitorId = getRatingVisitorId();
-
     return listenRatings(id, (nextRatings) => {
       setRatings(nextRatings);
-      setUserRating(
-        nextRatings.find((rating) => rating.id === visitorId)?.value || 0,
-      );
+      setUserRating(0);
     });
   }, [id, listenRatings]);
 
@@ -112,7 +96,6 @@ export default function CarDetails() {
 
   /* ---------------- RATING ---------------- */
   const handleRating = async (value) => {
-    const visitorId = getRatingVisitorId();
     setUserRating(value);
     setRatingPulse(value);
 
@@ -121,9 +104,13 @@ export default function CarDetails() {
     }, 420);
 
     try {
-      await setRating(car.id, visitorId, value);
+      await setRating(car.id, value);
     } catch (error) {
-      alert(error.message || "Rating could not be saved.");
+      alert(
+        error.message?.includes("permission")
+          ? "Firebase is blocking public ratings. Please publish the updated Firestore rules."
+          : error.message || "Rating could not be saved.",
+      );
     }
   };
 
