@@ -128,12 +128,12 @@ export default function Hero() {
       {/* CONTENT */}
       <div className="hero-content">
         <h1>
-          Discover <span>Daily Glow Essentials</span>
+          yusieorganics <span>Daily Glow Essentials</span>
         </h1>
 
         <p>
-          Shop skincare, soaps, hand wash, hair care, and bath products curated
-          for a fresh everyday routine.
+          Shop gentle skincare, soaps, hand wash, hair care, and bath products
+          curated for a fresh everyday routine.
         </p>
 
         <div className="hero-buttons">

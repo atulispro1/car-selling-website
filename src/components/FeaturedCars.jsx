@@ -20,7 +20,7 @@ export default function FeaturedCars() {
     <section className="featured-cars">
       <div className="featured-header">
         <h2>Featured Products</h2>
-        <p>Explore the latest products in the Yusra Khan catalog</p>
+        <p>Explore the latest skincare picks in the yusieorganics catalog</p>
       </div>
 
       <div className="cars-grid">

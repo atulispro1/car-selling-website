@@ -1,82 +1,37 @@
-# 🚗 CarSell Advanced
+# yusieorganics
 
-🔥 A modern and responsive **Car Selling & Listing Platform** built to simplify the process of buying and selling cars online.
+A modern responsive skincare and personal-care storefront for browsing products,
+checking details, and contacting the store directly.
 
-🌐 **Live Demo:** https://carsell-advanced.netlify.app/
+## Overview
 
----
+yusieorganics helps customers:
 
-## 📌 Overview
+- Browse skincare, soaps, hand wash, hair care, and bath products
+- Explore new products and best sellers
+- View price, size, category, pack type, and posted date
+- Comment on product detail pages without logging in
+- Contact the store through WhatsApp
 
-CarSell Advanced is a sleek web application designed to provide users with an easy way to:
+## Features
 
-- 🚘 Browse available cars and buy it
-- 🔍 Explore car listings  
-- 💰 View pricing and details  
-- 📱 Experience a responsive UI across devices  
+- Product listing system
+- Admin product management
+- Public product comments
+- Responsive catalog and detail pages
+- Firebase-backed product data
+- Cloud-hosted product images
 
-This project simulates a **real-world car dealership platform** like OLX / CarDekho.
+## Tech Stack
 
----
+- React
+- Firebase Authentication
+- Cloud Firestore
+- Cloudinary image uploads
+- CSS
+- Vite
 
-## ✨ Features
+## Brand Direction
 
-- 🚗 Car listing system  
-- 📱 Fully responsive design  
-- ⚡ Fast and lightweight UI  
-- 🎯 User-friendly interface  
-- 🧩 Component-based structure  
-
----
-
-## 🛠️ Tech Stack
-
-- 🌐 React
-- 🌐 HTML5  
-- 🎨 CSS3  
-- ⚙️ JavaScript  
-- 🚀 Hosted on Netlify  
-
----
-
-## 🎯 Use Case
-
-This project demonstrates:
-
-- Frontend development skills  
-- UI/UX design understanding  
-- Real-world project structure  
-- Deployment using Netlify  
-
----
-
-## 🚀 Future Improvements
-
-- 🔍 Advanced search & filters  
-- 👤 User authentication system  
-- 🛒 Buy/Sell functionality  
-- 📊 Admin dashboard  
-- ❤️ Wishlist feature  
-- 💬 Chat system between buyer & seller  
-
----
-
-## 👨‍💻 Author
-
-**Atul Sharma**
-
-- 💼 Web Developer & Digital Marketing Enthusiast  
-- 📈 Focused on building scalable and monetizable web platforms  
-
----
-
-## ⭐ Support
-
-If you like this project:
-
-👉 Star ⭐ the repository  
-👉 Fork 🍴 and contribute  
-
----
-
-> 💡 *CarSell Advanced – Smart Way to Buy & Sell Cars Online*
+The storefront is focused on clean skincare, glow essentials, personal-care
+routines, product bundles, and everyday organic-inspired care.

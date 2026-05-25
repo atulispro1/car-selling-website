@@ -4,8 +4,8 @@ export default function WhyChoose() {
   return (
     <section className="why-choose">
       <div className="why-header">
-        <h2>Why Choose Yusra Khan?</h2>
-        <p>A simple personal-care storefront for daily essentials and gifts</p>
+        <h2>Why Choose yusieorganics?</h2>
+        <p>A clean skincare storefront for daily essentials and gifting</p>
       </div>
 
       <div className="why-grid">
@@ -34,7 +34,7 @@ export default function WhyChoose() {
         </div>
 
         <div className="why-card">
-          <span className="why-icon">YK</span>
+          <span className="why-icon">YO</span>
           <h3>Beauty Essentials</h3>
           <p>Face wash, soap, serum, moisturizer, lotion, and hair oil in one place.</p>
         </div>

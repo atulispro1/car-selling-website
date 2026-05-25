@@ -9,10 +9,10 @@ export default function CTASection() {
       <div className="cta-overlay"></div>
 
       <div className="cta-content">
-        <h2>Ready to Build a Product Order?</h2>
+        <h2>Ready to Build Your Skincare Routine?</h2>
         <p>
-          Browse skincare and daily-care products, then contact Yusra Khan
-          directly for availability and custom bundles.
+          Browse skincare and daily-care products, then contact yusieorganics
+          directly for availability, bundles, and routine suggestions.
         </p>
 
         <div className="cta-buttons">

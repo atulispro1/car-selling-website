@@ -6,12 +6,12 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-col">
-          <h3>Yusra Khan</h3>
-          <p>Product storefront</p>
+          <h3>yusieorganics</h3>
+          <p>Skincare and personal-care storefront</p>
           <br />
           <p>
-            Shop skincare, soaps, hand wash, body care, and daily essentials
-            with clear product images and details.
+            Shop gentle skincare, soaps, hand wash, body care, and daily
+            essentials with clear product images and useful details.
           </p>
         </div>
 
@@ -65,7 +65,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        Copyright {new Date().getFullYear()} Yusra Khan. All rights reserved.
+        Copyright {new Date().getFullYear()} yusieorganics. All rights reserved.
       </div>
     </footer>
   );

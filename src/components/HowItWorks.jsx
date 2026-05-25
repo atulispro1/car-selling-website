@@ -4,15 +4,15 @@ export default function HowItWorks() {
   return (
     <section className="how-it-works">
       <div className="how-header">
-        <h2>How Yusra Khan Works</h2>
-        <p>Browse products and connect with the store in a few simple steps</p>
+        <h2>How yusieorganics Works</h2>
+        <p>Browse skincare products and connect with the store in a few simple steps</p>
       </div>
 
       <div className="how-steps">
         <div className="how-step">
           <div className="step-number">1</div>
           <h3>Explore Catalog</h3>
-          <p>View face wash, hand soap, soap bars, serums, lotions, and more.</p>
+          <p>View face wash, hand soap, bath bars, serums, moisturizers, and more.</p>
         </div>
 
         <div className="how-step">

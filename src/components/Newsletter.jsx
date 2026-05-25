@@ -19,7 +19,7 @@ export default function Newsletter() {
         <h2>Stay Updated</h2>
         <p>
           Subscribe for new skincare drops, soap bundles, product deals, and
-          product updates from Yusra Khan.
+          product updates from yusieorganics.
         </p>
 
         {!subscribed ? (

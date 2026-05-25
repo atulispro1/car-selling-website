@@ -6,6 +6,8 @@ import {
   updateDoc,
   doc,
   onSnapshot,
+  orderBy,
+  query,
   setDoc,
   serverTimestamp,
 } from "firebase/firestore";
@@ -97,12 +99,11 @@ export function CarsProvider({ children }) {
   };
 
   /* ================= COMMENTS ================= */
-  const addComment = async (carId, user, text) => {
+  const addComment = async (carId, name, text) => {
     const ref = collection(db, "cars", carId, "comments");
 
     await addDoc(ref, {
-      userId: user.uid,
-      userName: user.name,
+      name: name.trim() || "Guest",
       text,
       createdAt: serverTimestamp(),
     });
@@ -114,7 +115,7 @@ export function CarsProvider({ children }) {
 
   const listenComments = (carId, callback) => {
     return onSnapshot(
-      collection(db, "cars", carId, "comments"),
+      query(collection(db, "cars", carId, "comments"), orderBy("createdAt", "desc")),
       (snapshot) => {
         const comments = snapshot.docs.map((d) => ({
           id: d.id,
@@ -126,12 +127,11 @@ export function CarsProvider({ children }) {
   };
 
   /* ================= RATINGS ================= */
-  const setRating = async (carId, user, value) => {
-    const ref = doc(db, "cars", carId, "ratings", user.uid);
+  const setRating = async (carId, voterId, value) => {
+    const ref = doc(db, "cars", carId, "ratings", voterId);
 
     await setDoc(ref, {
       value,
-      userName: user.name,
       updatedAt: serverTimestamp(),
     });
   };
@@ -140,7 +140,10 @@ export function CarsProvider({ children }) {
     return onSnapshot(
       collection(db, "cars", carId, "ratings"),
       (snapshot) => {
-        const ratings = snapshot.docs.map((d) => d.data());
+        const ratings = snapshot.docs.map((d) => ({
+          id: d.id,
+          ...d.data(),
+        }));
         callback(ratings);
       }
     );

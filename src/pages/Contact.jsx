@@ -10,7 +10,7 @@ export default function Contact() {
     const email = e.target.email.value;
     const message = e.target.message.value;
 
-    const whatsappMessage = `Hello, I contacted you from Yusra Khan website.%0A%0AName: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
+    const whatsappMessage = `Hello, I contacted you from yusieorganics website.%0A%0AName: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
     window.open(whatsappURL, "_blank");
@@ -20,15 +20,15 @@ export default function Contact() {
     <section className="contact-page">
       <div className="contact-container">
         <div className="contact-info">
-          <h1>Contact Yusra Khan</h1>
+          <h1>Contact yusieorganics</h1>
           <p>
-            Have questions about skincare, soap, hand wash, bundles, or product
-            availability? We are here to help you.
+            Have questions about skincare, soap, hand wash, bundles, ingredients,
+            or product availability? We are here to help you.
           </p>
 
           <div className="info-box">
             <h4>Email</h4>
-            <span>hello@yusrakhan.com</span>
+            <span>hello@yusieorganics.com</span>
           </div>
 
           <div className="info-box">

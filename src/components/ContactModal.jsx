@@ -4,7 +4,7 @@ export default function ContactModal({ open, onClose, car }) {
   if (!open) return null;
 
   const whatsappNumber = car?.sellerPhone;
-  const message = `Hi ${car?.sellerName}, I am interested in ${car?.name} listed on Yusra Khan.`;
+  const message = `Hi yusieorganics, I am interested in ${car?.name}.`;
 
   const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
     message,

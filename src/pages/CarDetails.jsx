@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useCars } from "../context/CarsContext";
 import { useAuth } from "../context/AuthContext";
@@ -7,58 +7,77 @@ import ContactModal from "../components/ContactModal";
 
 import "./../styles/carDetails.css";
 
-function readProductSocial(storageKey, userEmail) {
-  const saved = JSON.parse(localStorage.getItem(storageKey)) || {
-    ratings: [],
-    comments: [],
-  };
+const RATING_VISITOR_KEY = "yusieorganics-rating-visitor";
 
-  const existingRating = saved.ratings.find((r) => r.email === userEmail);
+function formatPostedDate(value) {
+  if (!value) return "Recently added";
 
-  return {
-    storageKey,
-    userEmail,
-    ratings: saved.ratings,
-    comments: saved.comments,
-    userRating: existingRating?.value || 0,
-  };
+  const date =
+    typeof value.toDate === "function" ? value.toDate() : new Date(value);
+
+  if (Number.isNaN(date.getTime())) return "Recently added";
+
+  return date.toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function getRatingVisitorId() {
+  const existingId = localStorage.getItem(RATING_VISITOR_KEY);
+  if (existingId) return existingId;
+
+  const nextId =
+    crypto?.randomUUID?.() || `visitor-${Date.now()}-${Math.random()}`;
+  localStorage.setItem(RATING_VISITOR_KEY, nextId);
+  return nextId;
 }
 
 export default function CarDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { cars, deleteCar } = useCars();
+  const {
+    cars,
+    deleteCar,
+    addComment,
+    listenComments,
+    setRating,
+    listenRatings,
+  } = useCars();
   const { user } = useAuth();
 
   const car = cars.find((c) => c.id === id);
 
   const [activeImage, setActiveImage] = useState(0);
   const [openModal, setOpenModal] = useState(false);
-
-  /* ---------------- SOCIAL STATE ---------------- */
-  const storageKey = `product-social-${id}`;
-  const userEmail = user?.email || "";
-  const [social, setSocial] = useState(() =>
-    readProductSocial(storageKey, userEmail),
-  );
+  const [comments, setComments] = useState([]);
+  const [commentName, setCommentName] = useState("");
   const [commentText, setCommentText] = useState("");
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [editText, setEditText] = useState("");
+  const [commentSubmitting, setCommentSubmitting] = useState(false);
+  const [ratings, setRatings] = useState([]);
+  const [userRating, setUserRating] = useState(0);
+  const [ratingPulse, setRatingPulse] = useState(0);
 
-  if (social.storageKey !== storageKey || social.userEmail !== userEmail) {
-    setSocial(readProductSocial(storageKey, userEmail));
-  }
+  useEffect(() => {
+    if (!id) return undefined;
 
-  const { ratings, comments, userRating } = social;
+    return listenComments(id, setComments);
+  }, [id, listenComments]);
 
-  /* ---------------- SAVE SOCIAL DATA ---------------- */
-  const persistSocial = (newRatings, newComments) => {
-    localStorage.setItem(
-      storageKey,
-      JSON.stringify({ ratings: newRatings, comments: newComments }),
-    );
-  };
+  useEffect(() => {
+    if (!id) return undefined;
+
+    const visitorId = getRatingVisitorId();
+
+    return listenRatings(id, (nextRatings) => {
+      setRatings(nextRatings);
+      setUserRating(
+        nextRatings.find((rating) => rating.id === visitorId)?.value || 0,
+      );
+    });
+  }, [id, listenRatings]);
 
   if (!car) {
     return (
@@ -92,20 +111,20 @@ export default function CarDetails() {
   };
 
   /* ---------------- RATING ---------------- */
-  const handleRating = (value) => {
-    if (!user) {
-      return;
+  const handleRating = async (value) => {
+    const visitorId = getRatingVisitorId();
+    setUserRating(value);
+    setRatingPulse(value);
+
+    window.setTimeout(() => {
+      setRatingPulse(0);
+    }, 420);
+
+    try {
+      await setRating(car.id, visitorId, value);
+    } catch (error) {
+      alert(error.message || "Rating could not be saved.");
     }
-
-    const filtered = ratings.filter((r) => r.email !== user.email);
-    const updated = [...filtered, { email: user.email, value }];
-
-    setSocial((prev) => ({
-      ...prev,
-      ratings: updated,
-      userRating: value,
-    }));
-    persistSocial(updated, comments);
   };
 
   const averageRating =
@@ -116,61 +135,20 @@ export default function CarDetails() {
       : "No ratings";
 
   /* ---------------- COMMENT ---------------- */
-  const submitComment = () => {
-    if (!user || !commentText.trim()) return;
+  const submitComment = async () => {
+    if (!commentText.trim()) return;
 
-    const newComment = {
-      email: user.email,
-      name: user.name,
-      text: commentText,
-      date: new Date().toLocaleDateString(),
-    };
+    setCommentSubmitting(true);
 
-    const updatedComments = [newComment, ...comments];
-    setSocial((prev) => ({
-      ...prev,
-      comments: updatedComments,
-    }));
-    setCommentText("");
-
-    persistSocial(ratings, updatedComments);
-  };
-  /* ---------------- EDIT COMMENT ---------------- */
-  const startEdit = (index, text) => {
-    setEditingIndex(index);
-    setEditText(text);
-  };
-
-  const saveEdit = (index) => {
-    if (!editText.trim()) return;
-
-    const updatedComments = [...comments];
-    updatedComments[index] = {
-      ...updatedComments[index],
-      text: editText,
-    };
-
-    setSocial((prev) => ({
-      ...prev,
-      comments: updatedComments,
-    }));
-    persistSocial(ratings, updatedComments);
-
-    setEditingIndex(null);
-    setEditText("");
-  };
-
-  /* ---------------- DELETE COMMENT ---------------- */
-  const deleteComment = (index) => {
-    const confirm = window.confirm("Delete this comment?");
-    if (!confirm) return;
-
-    const updatedComments = comments.filter((_, i) => i !== index);
-    setSocial((prev) => ({
-      ...prev,
-      comments: updatedComments,
-    }));
-    persistSocial(ratings, updatedComments);
+    try {
+      await addComment(car.id, commentName, commentText);
+      setCommentName("");
+      setCommentText("");
+    } catch (error) {
+      alert(error.message || "Comment could not be posted.");
+    } finally {
+      setCommentSubmitting(false);
+    }
   };
 
   return (
@@ -233,11 +211,10 @@ export default function CarDetails() {
 
           <div style={{ marginTop: "1rem", color: "#555" }}>
             <p>
-              <strong>Store:</strong> {car.sellerName}
+              <strong>Store:</strong> yusieorganics
             </p>
             <p>
-              <strong>Posted on:</strong>{" "}
-              {new Date(car.createdAt).toDateString()}
+              <strong>Posted on:</strong> {formatPostedDate(car.createdAt)}
             </p>
           </div>
 
@@ -279,17 +256,16 @@ export default function CarDetails() {
         <h2>Rating</h2>
         <p>Average: {averageRating} stars</p>
 
-        <div style={{ fontSize: "1.6rem" }}>
+        <div className="rating-stars" aria-label="Product rating">
           {[1, 2, 3, 4, 5].map((v) => (
             <span
               key={v}
-              style={{
-                cursor: "pointer",
-                color: v <= userRating ? "#ff3d3d" : "#ccc",
-              }}
+              className={`rating-star ${v <= userRating ? "active" : ""} ${
+                v === ratingPulse ? "pulse" : ""
+              }`}
               onClick={() => handleRating(v)}
             >
-              *
+              <span className="rating-star-shape">★</span>
             </span>
           ))}
         </div>
@@ -299,33 +275,37 @@ export default function CarDetails() {
       <div className="similar-section">
         <h2>Comments</h2>
 
-        {user && (
-          <div style={{ marginBottom: "1rem" }}>
-            <textarea
-              rows="3"
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Write a comment..."
-              style={{ width: "100%", padding: "10px" }}
-            />
-            <button
-              className="contact-btn"
-              style={{ marginTop: "0.6rem" }}
-              onClick={submitComment}
-            >
-              Post Comment
-            </button>
-          </div>
-        )}
+        <div style={{ marginBottom: "1rem" }}>
+          <input
+            type="text"
+            value={commentName}
+            onChange={(e) => setCommentName(e.target.value)}
+            placeholder="Your name"
+            style={{ width: "100%", padding: "10px", marginBottom: "0.6rem" }}
+          />
+          <textarea
+            rows="3"
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            placeholder="Write your comment..."
+            style={{ width: "100%", padding: "10px" }}
+          />
+          <button
+            className="contact-btn"
+            style={{ marginTop: "0.6rem" }}
+            onClick={submitComment}
+            disabled={commentSubmitting}
+          >
+            {commentSubmitting ? "Posting..." : "Post Comment"}
+          </button>
+        </div>
 
         {comments.length === 0 && <p>No comments yet.</p>}
 
-        {comments.map((c, i) => {
-          const isCommentOwner = user && user.email === c.email;
-
+        {comments.map((c) => {
           return (
             <div
-              key={i}
+              key={c.id}
               style={{
                 display: "flex",
                 gap: "1rem",
@@ -347,74 +327,17 @@ export default function CarDetails() {
                   fontWeight: 700,
                 }}
               >
-                {c.name.charAt(0).toUpperCase()}
+                {(c.name || "Guest").charAt(0).toUpperCase()}
               </div>
 
               {/* Content */}
               <div style={{ flex: 1 }}>
-                <strong>{c.name}</strong>
-
-                {/* EDIT MODE */}
-                {editingIndex === i ? (
-                  <>
-                    <textarea
-                      rows="2"
-                      value={editText}
-                      onChange={(e) => setEditText(e.target.value)}
-                      style={{ width: "100%", marginTop: "4px" }}
-                    />
-
-                    <div
-                      style={{ marginTop: "6px", display: "flex", gap: "8px" }}
-                    >
-                      <button
-                        className="contact-btn"
-                        style={{ padding: "6px 12px" }}
-                        onClick={() => saveEdit(i)}
-                      >
-                        Save
-                      </button>
-
-                      <button
-                        className="contact-btn"
-                        style={{ background: "#777", padding: "6px 12px" }}
-                        onClick={() => {
-                          setEditingIndex(null);
-                          setEditText("");
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <p style={{ margin: "4px 0" }}>{c.text}</p>
-                    <small style={{ color: "#777" }}>{c.date}</small>
-                  </>
-                )}
+                <strong>{c.name || "Guest"}</strong>
+                <p style={{ margin: "4px 0" }}>{c.text}</p>
+                <small style={{ color: "#777" }}>
+                  {formatPostedDate(c.createdAt)}
+                </small>
               </div>
-
-              {/* ACTIONS (OWNER ONLY) */}
-              {isCommentOwner && editingIndex !== i && (
-                <div style={{ display: "flex", gap: "6px" }}>
-                  <button
-                    className="contact-btn"
-                    style={{ padding: "6px 10px" }}
-                    onClick={() => startEdit(i, c.text)}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    className="contact-btn"
-                    style={{ background: "#333", padding: "6px 10px" }}
-                    onClick={() => deleteComment(i)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              )}
             </div>
           );
         })}

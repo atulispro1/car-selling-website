@@ -43,8 +43,8 @@ export default function Navbar() {
   return (
     <header className="navbar">
       <Link to="/" className="logo-box">
-        <span className="logo-image">YK</span>
-        <span className="brand-name">Yusra Khan</span>
+        <span className="logo-image">YO</span>
+        <span className="brand-name">yusieorganics</span>
       </Link>
 
       <nav className="nav-center desktop-only">
